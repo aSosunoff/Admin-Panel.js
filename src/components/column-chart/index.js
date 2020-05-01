@@ -1,3 +1,6 @@
+import HTMLBulder from '../../utils/HTMLBulder.js';
+import subElementsFunc from '../../utils/subElements.js';
+
 export default class ColumnChart {
 	element;
 	subElements = {};
@@ -8,9 +11,6 @@ export default class ColumnChart {
 		this.label = label;
 		this.link = link;
 		this.value = value;
-
-		// NOTE: needed for correct work in src/pages/dashboard/index.js:93
-		// this.render();
 	}
 
 	getColumnBody(data) {
@@ -36,7 +36,7 @@ export default class ColumnChart {
 		return `
       <div class="column-chart column-chart_loading" style="--chart-height: ${this.chartHeight}">
         <div class="column-chart__title">
-          Total ${this.label}
+          ${this.label}
           ${this.getLink()}
         </div>
         <div class="column-chart__container">
@@ -52,31 +52,24 @@ export default class ColumnChart {
 	}
 
 	async render() {
-		const element = document.createElement('div');
-
-		element.innerHTML = this.template;
-		this.element = element.firstElementChild;
+		this.element = HTMLBulder.getElementFromString(this.template);
 
 		if (this.data.length) {
 			this.element.classList.remove(`column-chart_loading`);
 		}
 
-		this.subElements = this.getSubElements(this.element);
+		this.subElements = subElementsFunc(this.element, '[data-element]');
 
 		return this.element;
 	}
 
-	getSubElements(element) {
-		const elements = element.querySelectorAll('[data-element]');
-
-		return [...elements].reduce((accum, subElement) => {
-			accum[subElement.dataset.element] = subElement;
-
-			return accum;
-		}, {});
-	}
-
 	update({ headerData, bodyData }) {
+		if (!bodyData.length) {
+			return;
+		}
+		
+		this.element.classList.remove(`column-chart_loading`);
+		this.data = bodyData;
 		this.subElements.header.textContent = headerData;
 		this.subElements.body.innerHTML = this.getColumnBody(bodyData);
 	}

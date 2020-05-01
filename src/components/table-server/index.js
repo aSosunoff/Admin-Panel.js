@@ -6,10 +6,23 @@ const BACKEND_URL = 'https://course-js.javascript.ru';
 export default class TableServer extends TablePagging {
 	url;
 	isLoadind = false;
+	filter;
 
-	constructor(headersConfig, { url = '', sorted, pageSize = 5 } = {}) {
+	constructor(
+		headersConfig,
+		{
+			url = '',
+			sorted,
+			pageSize = 5,
+			filter = {
+				from: new Date(),
+				to: new Date(),
+			},
+		} = {},
+	) {
 		super(headersConfig, { data: [], sorted, pageSize });
 		this.url = url.trim() ? new URL(url.trim(), BACKEND_URL) : null;
+		this.filter = filter;
 	}
 
 	/**@override */
@@ -35,6 +48,14 @@ export default class TableServer extends TablePagging {
 		}
 	}
 
+	async setfilter({ from = this.filter.from, to = this.filter.to } = {}) {
+		this.filter = {
+			from,
+			to,
+		};
+		await this.renderBody();
+	}
+
 	/**@override */
 	async getDataOfPage(page) {
 		const data = await this.loadData(page);
@@ -44,7 +65,10 @@ export default class TableServer extends TablePagging {
 
 	async loadData(
 		page = this.paggination.page,
-		{ id = this.sorted.id, order = this.sorted.order } = {},
+		{
+			id = this.sorted.id,
+			order = this.sorted.order,
+		} = {},
 	) {
 		if (!this.url) {
 			return;
@@ -62,6 +86,8 @@ export default class TableServer extends TablePagging {
 		this.url.searchParams.set('_order', order);
 		this.url.searchParams.set('_start', (page - 1) * size);
 		this.url.searchParams.set('_end', (page - 1) * size + size);
+		this.url.searchParams.set('from', new Date(TableServer.getDateTimeStamp(this.filter.from)).toISOString());
+		this.url.searchParams.set('to', new Date(TableServer.getDateTimeStamp(this.filter.to)).toISOString());
 
 		const data = await fetchJson(this.url);
 

@@ -68,7 +68,10 @@
 			},
 		];
 
-		const table = new TableServer(header, { url: 'api/rest/products', pageSize: 14 });
+		// 'api/rest/products'
+		const table = new TableServer(header, {
+			url: 'api/dashboard/bestsellers',
+			pageSize: 14 });
 
 		table.render();
 

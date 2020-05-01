@@ -8,10 +8,21 @@ export default class Table {
 	sorted = {};
 	data = [];
 
+	static getDateTimeStamp = (val) => {
+		if (Date.parse(val)) {
+			return Date.parse(val);
+		} else if (val instanceof Date) {
+			return val.getTime();
+		}
+
+		return -1;
+	}
+
 	static sort = (() => {
 		const sortStrategy = {
 			number: (direction, a, b) => direction * (a - b),
 			string: (direction, a, b) => direction * new Intl.Collator().compare(a, b),
+			date: (direction, a, b) => direction * (Table.getDateTimeStamp(a) - Table.getDateTimeStamp(b)),
 		};
 
 		return (type, order, a, b) => {
@@ -21,7 +32,7 @@ export default class Table {
 				return sortStrategy[type](direction, a, b);
 			}
 
-			return sortStrategy[Object.keys[sortStrategy][0]](direction, a, b);
+			return sortStrategy[Object.keys(sortStrategy)[0]](direction, a, b);
 		};
 	})();
 
@@ -85,11 +96,11 @@ export default class Table {
 	renderHeader() {
 		this.subElements.header.innerHTML = this.headersConfig
 			.map(
-				({ id, sortable, title }) => `
+				({ id, sortable, title, sortType }) => `
 				<div 
 					class="sortable-table__cell" 
 					data-id="${id}" 
-					data-sortable="${Boolean(sortable)}"
+					data-sortable="${Boolean(sortable) || Boolean(sortType)}"
 					data-order="">
 						<span>${title}</span>
 				</div>`,

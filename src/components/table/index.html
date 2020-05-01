@@ -55,7 +55,7 @@
 					`;
 				},
 			}, */
-			{
+			/* {
 				id: 'status',
 				title: 'Статус',
 				sortable: (order, a, b) => (order === 'asc' ? -1 : 1) * (a - b),
@@ -65,6 +65,18 @@
 						${data == 1 ? 'В наличии' : 'Отсутствует'}
 					</div>
 					`;
+				},
+			}, */
+			{
+				id: 'date',
+				title: 'Дата',
+				sortType: 'date',
+				template: data => {
+					let dateString = '';
+					if (Date.parse(data)) {
+						dateString = new Date(data).toLocaleDateString('ru', { day: '2-digit', month: '2-digit', year: 'numeric' });
+					}
+					return `<div class="sortable-table__cell">${dateString}</div>`;
 				},
 			},
 		];
