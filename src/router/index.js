@@ -2,6 +2,17 @@ import renderPage from './render-page.js';
 
 // performs routing on all links
 export default class Router {
+	routes = [];
+	page = null;
+	notFoundPagePath = '';
+
+	static instance() {
+		if (!this._instance) {
+			this._instance = new Router();
+		}
+		return this._instance;
+	}
+
 	constructor() {
 		this.routes = [];
 
@@ -22,13 +33,6 @@ export default class Router {
 				this.navigate(href);
 			}
 		});
-	}
-
-	static instance() {
-		if (!this._instance) {
-			this._instance = new Router();
-		}
-		return this._instance;
 	}
 
 	async route() {

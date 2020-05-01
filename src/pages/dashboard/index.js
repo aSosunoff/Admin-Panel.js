@@ -46,11 +46,13 @@ export default class Page {
 
 		const rangePicker = new RangePicker(filter);
 
-		this.components.tableServer = tableServer;
-		this.components.ordersChart = ordersChart;
-		this.components.salesChart = salesChart;
-		this.components.customersChart = customersChart;
-		this.components.rangePicker = rangePicker;
+		this.components = {
+			tableServer,
+			ordersChart,
+			salesChart,
+			customersChart,
+			rangePicker,
+		};
 	}
 
 	get template() {
@@ -84,6 +86,8 @@ export default class Page {
 
 		await this.renderComponents();
 
+		await this.initEventListeners();
+
 		await this.updateData(this.components.tableServer.filter);
 
 		return this.element;
@@ -95,8 +99,6 @@ export default class Page {
 		Object.keys(this.components).forEach((component, index) => {
 			this.subElements[component].append(elements[index]);
 		});
-
-		await this.initEventListeners();
 	}
 
 	async updateData({ from, to }) {
