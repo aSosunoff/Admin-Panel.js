@@ -1,8 +1,8 @@
 module.exports = [
-  {
-    loader: 'file-loader',
-    options: {
-      name: '[path][name].[ext]'
-    }
-  }
+	{
+		loader: 'file-loader',
+		options: {
+			name: '[path][name].[ext]',
+		},
+	},
 ];

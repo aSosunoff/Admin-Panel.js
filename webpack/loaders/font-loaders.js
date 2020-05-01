@@ -1,8 +1,8 @@
 module.exports = [
-  {
-    loader: 'file-loader',
-    options: {
-      outputPath: 'fonts'
-    }
-  }
+	{
+		loader: 'file-loader',
+		options: {
+			outputPath: 'fonts',
+		},
+	},
 ];
