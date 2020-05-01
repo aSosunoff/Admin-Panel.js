@@ -1,6 +1,8 @@
 import TableServer from '../../components/table-server/index.js';
 import header from './bestsellers-header.js';
 import ColumnChart from '../../components/column-chart/index.js';
+import HTMLBulder from '../../utils/HTMLBulder.js';
+import subElementsFunc from '../../utils/subElements.js';
 
 export default class Page {
 	element;
@@ -78,12 +80,9 @@ export default class Page {
 	}
 
 	async render() {
-		const element = document.createElement('div');
+		this.element = HTMLBulder.getElementFromString(this.template);
 
-		element.innerHTML = this.template;
-
-		this.element = element.firstElementChild;
-		this.subElements = this.getSubElements(this.element);
+		this.subElements = subElementsFunc(this.element, '[data-element]');
 
 		await this.renderComponents();
 
@@ -98,16 +97,6 @@ export default class Page {
 		Object.keys(this.components).forEach((component, index) => {
 			this.subElements[component].append(elements[index]);
 		});
-	}
-
-	getSubElements($element) {
-		const elements = $element.querySelectorAll('[data-element]');
-
-		return [...elements].reduce((accum, subElement) => {
-			accum[subElement.dataset.element] = subElement;
-
-			return accum;
-		}, {});
 	}
 
 	initEventListeners() {
