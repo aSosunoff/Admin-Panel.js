@@ -5,8 +5,17 @@ export default class ColumnChart {
 	element;
 	subElements = {};
 	chartHeight = 50;
+	link = {};
 
-	constructor({ data = [], label = '', link = '', value = 0 } = {}) {
+	constructor({
+		data = [],
+		label = '',
+		link = {
+			href: '',
+			title: '',
+		},
+		value = 0,
+	} = {}) {
 		this.data = data;
 		this.label = label;
 		this.link = link;
@@ -29,7 +38,7 @@ export default class ColumnChart {
 	}
 
 	getLink() {
-		return this.link ? `<a class="column-chart__link" href="${this.link}">View all</a>` : '';
+		return this.link ? `<a class="column-chart__link" href="${this.link.href}">${this.link.title}</a>` : '';
 	}
 
 	get template() {
@@ -67,7 +76,7 @@ export default class ColumnChart {
 		if (!bodyData.length) {
 			return;
 		}
-		
+
 		this.element.classList.remove(`column-chart_loading`);
 		this.data = bodyData;
 		this.subElements.header.textContent = headerData;

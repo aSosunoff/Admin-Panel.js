@@ -1,4 +1,4 @@
-import fetchJson from '../../utils/fetch-json.js';
+import fetchJson from '../../../utils/fetch-json.js';
 import TablePagging from '../table-paging/index.js';
 
 export default class TableServer extends TablePagging {

@@ -1,7 +1,7 @@
 const header = [
 	{
 		id: 'images',
-		title: 'Image',
+		title: 'Фото',
 		sortable: false,
 		template: data => {
 			return `
@@ -13,31 +13,46 @@ const header = [
 	},
 	{
 		id: 'title',
-		title: 'Name',
+		title: 'Наименование',
 		sortable: true,
 		sortType: 'string',
 	},
 	{
+		id: 'subcategory',
+		title: 'Категория',
+		sortType: 'string',
+		template: data => {
+			const tooltip = `
+			<div class='sortable-table-tooltip'>
+				<span class='sortable-table-tooltip__category'>${data.category.title}</span> /
+				<b class='sortable-table-tooltip__subcategory'>${data.title}</b>
+		  	</div>`;
+
+			return `<div class="sortable-table__cell" data-tooltip="${tooltip}">${data.title}</div>`;
+		},
+	},
+	{
 		id: 'quantity',
-		title: 'Quantity',
+		title: 'Количество',
 		sortable: true,
 		sortType: 'number',
 	},
 	{
 		id: 'price',
-		title: 'Price',
+		title: 'Цена',
 		sortable: true,
 		sortType: 'number',
 	},
 	{
 		id: 'status',
-		title: 'Status',
+		title: 'Статус',
 		sortable: true,
 		sortType: 'number',
 		template: data => {
-			return `<div class="sortable-table__cell">
-          ${data > 0 ? 'Active' : 'Inactive'}
-        </div>`;
+			return `
+			<div class="sortable-table__cell">
+          		${data > 0 ? 'Активен' : 'Неактивен'}
+        	</div>`;
 		},
 	},
 ];

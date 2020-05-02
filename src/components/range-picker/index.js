@@ -168,8 +168,22 @@ export default class RangePicker {
 			buttonDay.classList.remove('rangepicker__selected-to');
 
 			const date = new Date(buttonDay.dataset.value).getTime();
-			const from = this.selected.from && this.selected.from.getTime();
-			const to = this.selected.to && this.selected.to.getTime();
+
+			const from =
+				this.selected.from &&
+				new Date(
+					this.selected.from.getFullYear(),
+					this.selected.from.getMonth(),
+					this.selected.from.getDate(),
+				).getTime();
+
+			const to =
+				this.selected.to &&
+				new Date(
+					this.selected.to.getFullYear(),
+					this.selected.to.getMonth(),
+					this.selected.to.getDate(),
+				).getTime();
 
 			if (from === date) {
 				buttonDay.classList.add('rangepicker__selected-from');
@@ -210,6 +224,12 @@ export default class RangePicker {
 
 	remove() {
 		this.element.remove();
+	}
+
+	destroy() {
+		this.remove();
+		this.removeEventListeners();
+		this.element.removeEventListener('click', this.onPickerToggle, true);
 		this.element = null;
 		this.subElements = {};
 		this.selected = {
@@ -217,12 +237,6 @@ export default class RangePicker {
 			to: new Date(),
 		};
 		this.showDateFrom = new Date();
-	}
-
-	destroy() {
-		this.remove();
-		this.removeEventListeners();
-		this.element.removeEventListener('click', this.onPickerToggle, true);
 	}
 
 	onPickerToggle = ({ target }) => {

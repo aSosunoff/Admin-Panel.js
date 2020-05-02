@@ -2,7 +2,7 @@
 
 /* Styles for components  */
 /* components */
-@import url("../components/table-server/style.css");
+@import url("../components/table/table-server/style.css");
 @import url("../components/sortable-list/style.css");
 @import url("../components/double-slider/style.css");
 @import url("../components/notification/style.css");

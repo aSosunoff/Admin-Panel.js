@@ -4,7 +4,7 @@ import header from './bestsellers-header.js';
 
 import PageBase from '../PageBase.js';
 
-import TableServer from '../../components/table-server/index.js';
+import TableServer from '../../components/table/table-server/index.js';
 import ColumnChart from '../../components/column-chart/index.js';
 import RangePicker from '../../components/range-picker/index.js';
 
@@ -16,7 +16,7 @@ export default class Page extends PageBase {
 		return `
 		<div class="dashboard">
 			<div class="content__top-panel">
-				<h2 class="page-title">Dashboard</h2>
+				<h2 class="page-title">Панель управления</h2>
 				<div data-element="rangePicker">
 				<!-- range-picker component -->
 				</div>
@@ -29,7 +29,7 @@ export default class Page extends PageBase {
 				<div data-element="customersChart" class="dashboard__chart_customers"></div>
 			</div>
 
-			<h3 class="block-title">Best sellers</h3>
+			<h3 class="block-title">Лидеры продаж</h3>
 
 			<div data-element="tableServer">
 				<!-- sortable-table component -->
@@ -43,9 +43,10 @@ export default class Page extends PageBase {
 
 	/**@override*/
 	initComponents() {
+		const currentDate = new Date();
 		const filter = {
-			from: new Date(2020, 0, 1),
-			to: new Date(2020, 1, 5),
+			from: new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate()),
+			to: currentDate,
 		};
 
 		this.components = {
@@ -55,11 +56,11 @@ export default class Page extends PageBase {
 					from: filter.from.toISOString(),
 					to: filter.to.toISOString(),
 				},
-				pageSize: 5,
+				pageSize: 10,
 			}),
 			ordersChart: new ColumnChart({
 				label: 'Заказы',
-				link: '#',
+				link: { href: 'sales', title: 'Подробнее' },
 			}),
 			salesChart: new ColumnChart({ label: 'Продажи' }),
 			customersChart: new ColumnChart({ label: 'Клиенты' }),
@@ -97,12 +98,12 @@ export default class Page extends PageBase {
 			headerData: Object.values(orderData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(orderData),
 		});
-		
+
 		this.components.salesChart.update({
 			headerData: '$ ' + Object.values(salesData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(salesData),
 		});
-		
+
 		this.components.customersChart.update({
 			headerData: Object.values(customersData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(customersData),

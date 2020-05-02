@@ -1,7 +1,7 @@
 import header from './products-header.js';
 
 import PageBase from '../../PageBase.js';
-import TableServer from '../../../components/table-server/index.js';
+import TableInfinityServer from '../../../components/table/table-infinity-server/index.js';
 
 const BACKEND_URL = 'https://course-js.javascript.ru';
 
@@ -31,10 +31,13 @@ export default class Page extends PageBase {
 			to: new Date(2020, 1, 5),
 		};
 
-		const productsContainer = new TableServer(header, {
+		const productsContainer = new TableInfinityServer(header, {
 			url: new URL('api/rest/products', BACKEND_URL),
 			pageSize: 15,
 			filter,
+			urlQueryPerem: {
+				_embed: 'subcategory.category',
+			},
 		});
 
 		this.components = {
