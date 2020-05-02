@@ -1,28 +1,15 @@
 import fetchJson from '../../utils/fetch-json.js';
 import TablePagging from '../table-paging/index.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export default class TableServer extends TablePagging {
-	url;
+	url = null;
 	isLoadind = false;
-	filter;
+	urlQueryPerem = {};
 
-	constructor(
-		headersConfig,
-		{
-			url = '',
-			sorted,
-			pageSize = 5,
-			filter = {
-				from: new Date(),
-				to: new Date(),
-			},
-		} = {},
-	) {
+	constructor(headersConfig, { url = null, sorted, pageSize = 5, urlQueryPerem = {} } = {}) {
 		super(headersConfig, { data: [], sorted, pageSize });
-		this.url = url.trim() ? new URL(url.trim(), BACKEND_URL) : null;
-		this.filter = filter;
+		this.url = url;
+		this.urlQueryPerem = urlQueryPerem;
 	}
 
 	/**@override */
@@ -48,14 +35,6 @@ export default class TableServer extends TablePagging {
 		}
 	}
 
-	async setfilter({ from = this.filter.from, to = this.filter.to } = {}) {
-		this.filter = {
-			from,
-			to,
-		};
-		await this.renderBody();
-	}
-
 	/**@override */
 	async getDataOfPage(page) {
 		const data = await this.loadData(page);
@@ -63,12 +42,14 @@ export default class TableServer extends TablePagging {
 		return data || [];
 	}
 
+	async changeUrlQuery(urlQueryPerem) {
+		this.urlQueryPerem = urlQueryPerem;
+		await this.renderBody();
+	}
+
 	async loadData(
 		page = this.paggination.page,
-		{
-			id = this.sorted.id,
-			order = this.sorted.order,
-		} = {},
+		{ id = this.sorted.id, order = this.sorted.order } = {},
 	) {
 		if (!this.url) {
 			return;
@@ -86,8 +67,10 @@ export default class TableServer extends TablePagging {
 		this.url.searchParams.set('_order', order);
 		this.url.searchParams.set('_start', (page - 1) * size);
 		this.url.searchParams.set('_end', (page - 1) * size + size);
-		this.url.searchParams.set('from', new Date(TableServer.getDateTimeStamp(this.filter.from)).toISOString());
-		this.url.searchParams.set('to', new Date(TableServer.getDateTimeStamp(this.filter.to)).toISOString());
+
+		Object.entries(this.urlQueryPerem).forEach(([key, value]) => {
+			this.url.searchParams.set(key, value);
+		});
 
 		const data = await fetchJson(this.url);
 
