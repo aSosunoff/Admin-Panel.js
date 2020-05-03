@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="./style.css" />
+
+<body>
+	<div id="holder"></div>
+
+	<script type="module">
+		import { SortableList } from "./index.js";
+		import { HTMLBulder } from '../../utils/HTMLBulder.js';
+
+		const ul = HTMLBulder.getElementFromString('<ul class"sortable-list"></ul>');
+
+		[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(e => {
+			ul.append(HTMLBulder
+				.getElementFromString(`
+					<li class="sortable-list__item">
+						<span data-grab-handle>[перетащить]</span>
+						${e}
+					</li>`
+				));
+		});
+
+		holder.append(ul);
+
+		const sortableList = new SortableList({
+			container: ul,
+			childrenClass: 'sortable-list__item',
+			dragClass: 'sortable-list__item_dragging',
+			placeholderClass: 'sortable-list__placeholder',
+		});
+
+		window.sortableList = sortableList;
+	</script>
+</body>

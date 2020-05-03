@@ -125,13 +125,13 @@ export class Table {
 		}));
 
 		const templateDefault = data => `<div class="sortable-table__cell">${data}</div>`;
-
+		
 		this.subElements.body.append(
 			...data.map(data =>
 				HTMLBulder.getElementFromString(`
-				<div data-href="/products/${this.id}" class="sortable-table__row">
+				<a href="/products/${data.id}" class="sortable-table__row">
 					${cells.map(({ id, template = templateDefault }) => template(data[id])).join('')}
-				</div>`),
+				</a>`),
 			),
 		);
 	}
