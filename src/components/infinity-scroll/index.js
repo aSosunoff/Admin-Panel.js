@@ -1,21 +1,6 @@
-const debounceDecorator = (f, delay = 0) => {
-	let timer = null;
+import { debounceDecorator } from '../../utils/debounceDecorator.js';
 
-	return (...arg) => {
-		if (timer) {
-			clearTimeout(timer);
-			timer = null;
-		}
-
-		timer = setTimeout(() => {
-			f.apply(this, arg);
-			clearTimeout(timer);
-			timer = null;
-		}, delay);
-	};
-};
-
-export default class InfinityScroll {
+export class InfinityScroll {
 	get checkBottomBorder() {
 		const { bottom } = document.documentElement.getBoundingClientRect();
 		const { clientHeight } = document.documentElement;

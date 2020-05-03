@@ -1,7 +1,7 @@
-import TableServer from '../table-server/index.js';
-import InfinityScroll from '../../infinity-scroll/index.js';
+import { TableServer } from '../table-server/index.js';
+import { InfinityScroll } from '../../infinity-scroll/index.js';
 
-export default class TableInfinityServer extends TableServer {
+export class TableInfinityServer extends TableServer {
 	infinityElement;
 
 	constructor(headersConfig, { url = null, sorted, pageSize = 5, urlQueryPerem = {} } = {}) {

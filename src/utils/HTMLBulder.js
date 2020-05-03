@@ -1,4 +1,4 @@
-export default class HTMLBulder {
+export class HTMLBulder {
 	static getElementFromString(htmlString) {
 		const div = document.createElement('div');
 		div.innerHTML = htmlString.trim();

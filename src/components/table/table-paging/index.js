@@ -1,4 +1,4 @@
-import Table from '../table/index.js';
+import { Table } from '../table/index.js';
 
 const chunk = (arr = [], size) => {
 	const a = [...arr];
@@ -8,7 +8,7 @@ const chunk = (arr = [], size) => {
 		.map((e, inx) => a.slice(inx * size, inx * size + size));
 };
 
-export default class TablePagging extends Table {
+export class TablePagging extends Table {
 	paggination = {
 		size: 5,
 		page: 1,
@@ -22,6 +22,8 @@ export default class TablePagging extends Table {
 	/**@override */
 	renderBody() {
 		this.subElements.body.innerHTML = '';
+		
+		this.paggination = { ...this.paggination, page: 1 };
 
 		this.renderNextRows(this.getDataOfPage(1));
 	}

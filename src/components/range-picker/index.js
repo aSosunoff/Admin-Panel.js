@@ -1,7 +1,7 @@
-import HTMLBulder from '../../utils/HTMLBulder.js';
+import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import subElements from '../../utils/subElements.js';
 
-export default class RangePicker {
+export class RangePicker {
 	element;
 	subElements = {};
 	selected = {

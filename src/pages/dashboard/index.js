@@ -1,17 +1,22 @@
+import { HTMLBulder } from '../../utils/HTMLBulder.js';
+import subElementsFunc from '../../utils/subElements.js';
 import fetchJson from '../../utils/fetch-json.js';
 
 import header from './bestsellers-header.js';
 
-import PageBase from '../PageBase.js';
+import { TableServer } from '../../components/table/table-server/index.js';
+import { ColumnChart } from '../../components/column-chart/index.js';
+import { RangePicker } from '../../components/range-picker/index.js';
 
-import TableServer from '../../components/table/table-server/index.js';
-import ColumnChart from '../../components/column-chart/index.js';
-import RangePicker from '../../components/range-picker/index.js';
+import { ComponentContainer } from '../../components/component/index.js';
 
 const BACKEND_URL = 'https://course-js.javascript.ru';
 
-export default class Page extends PageBase {
-	/**@override*/
+export default class Page {
+	element;
+	subElements = {};
+	component = {};
+
 	get template() {
 		return `
 		<div class="dashboard">
@@ -38,45 +43,50 @@ export default class Page extends PageBase {
 	}
 
 	constructor() {
-		super();
+		this.initComponents();
 	}
 
-	/**@override*/
 	initComponents() {
+		this.component = new ComponentContainer();
+
 		const currentDate = new Date();
 		const filter = {
 			from: new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate()),
 			to: currentDate,
 		};
 
-		this.components = {
-			tableServer: new TableServer(header, {
+		this.component
+			.add('tableServer', new TableServer(header, {
 				url: new URL('api/dashboard/bestsellers', BACKEND_URL),
 				urlQueryPerem: {
 					from: filter.from.toISOString(),
 					to: filter.to.toISOString(),
 				},
 				pageSize: 10,
-			}),
-			ordersChart: new ColumnChart({
+			}))
+			.add('ordersChart', new ColumnChart({
 				label: 'Заказы',
 				link: { href: 'sales', title: 'Подробнее' },
-			}),
-			salesChart: new ColumnChart({ label: 'Продажи' }),
-			customersChart: new ColumnChart({ label: 'Клиенты' }),
-			rangePicker: new RangePicker(filter),
-		};
+			}))
+			.add('salesChart', new ColumnChart({ label: 'Продажи' }))
+			.add('customersChart', new ColumnChart({ label: 'Клиенты' }))
+			.add('rangePicker', new RangePicker(filter));
 	}
 
-	/**@override*/
 	async render() {
-		const element = await super.render();
+		this.element = HTMLBulder.getElementFromString(this.template);
+
+		this.subElements = subElementsFunc(this.element, '[data-element]');
+
+		await this.component.renderComponents((nameComponent, element) => {
+			this.subElements[nameComponent].append(element);
+		});
 
 		await this.initEventListeners();
 
-		await this.updateChartData(this.components.rangePicker.selected);
+		await this.updateChartData(this.component.components.rangePicker.selected);
 
-		return element;
+		return this.element;
 	}
 
 	async getDataChart({ url, from, to }) {
@@ -94,25 +104,25 @@ export default class Page extends PageBase {
 			this.getDataChart({ url: 'api/dashboard/customers', from, to }),
 		]);
 
-		this.components.ordersChart.update({
+		this.component.components.ordersChart.update({
 			headerData: Object.values(orderData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(orderData),
 		});
 
-		this.components.salesChart.update({
+		this.component.components.salesChart.update({
 			headerData: '$ ' + Object.values(salesData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(salesData),
 		});
 
-		this.components.customersChart.update({
+		this.component.components.customersChart.update({
 			headerData: Object.values(customersData).reduce((r, e) => r + e, 0),
 			bodyData: Object.values(customersData),
 		});
 	}
 
 	initEventListeners() {
-		this.components.rangePicker.element.addEventListener('date-range-selected', async e => {
-			this.components.tableServer.changeUrlQuery({
+		this.component.components.rangePicker.element.addEventListener('date-range-selected', async e => {
+			this.component.components.tableServer.changeUrlQuery({
 				from: e.detail.from.toISOString(),
 				to: e.detail.to.toISOString(),
 			});

@@ -2,7 +2,7 @@ import fetchJson, { FetchError } from './fetch-json.js';
 
 const IMGUR_CLIENT_ID = '28aaa2e823b03b1';
 
-export default class ImageUploader {
+export class ImageUploader {
 	static async upload(file) {
 		const formData = new FormData();
 

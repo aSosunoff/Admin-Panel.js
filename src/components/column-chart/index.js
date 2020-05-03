@@ -1,7 +1,7 @@
-import HTMLBulder from '../../utils/HTMLBulder.js';
+import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import subElementsFunc from '../../utils/subElements.js';
 
-export default class ColumnChart {
+export class ColumnChart {
 	element;
 	subElements = {};
 	chartHeight = 50;

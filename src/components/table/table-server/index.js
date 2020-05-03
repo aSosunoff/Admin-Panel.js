@@ -1,7 +1,7 @@
 import fetchJson from '../../../utils/fetch-json.js';
-import TablePagging from '../table-paging/index.js';
+import { TablePagging } from '../table-paging/index.js';
 
-export default class TableServer extends TablePagging {
+export class TableServer extends TablePagging {
 	url = null;
 	isLoadind = false;
 	urlQueryPerem = {};
@@ -15,6 +15,8 @@ export default class TableServer extends TablePagging {
 	/**@override */
 	async renderBody() {
 		this.subElements.body.innerHTML = '';
+
+		this.paggination = { ...this.paggination, page: 1 };
 
 		const firstPage = await this.getDataOfPage(1);
 
@@ -62,12 +64,16 @@ export default class TableServer extends TablePagging {
 		this.isLoadind = true;
 
 		const { size } = this.paggination;
+		
+		Array.from(this.url.searchParams.keys()).forEach((key) => {
+			this.url.searchParams.delete(key);
+		});
 
 		this.url.searchParams.set('_sort', id);
 		this.url.searchParams.set('_order', order);
 		this.url.searchParams.set('_start', (page - 1) * size);
 		this.url.searchParams.set('_end', (page - 1) * size + size);
-
+		
 		Object.entries(this.urlQueryPerem).forEach(([key, value]) => {
 			this.url.searchParams.set(key, value);
 		});
