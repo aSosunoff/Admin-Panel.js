@@ -121,13 +121,30 @@ export default class Page {
 	}
 
 	initEventListeners() {
-		this.component.components.rangePicker.element.addEventListener('date-range-selected', async e => {
-			this.component.components.tableServer.changeUrlQuery({
-				from: e.detail.from.toISOString(),
-				to: e.detail.to.toISOString(),
-			});
-
-			this.updateChartData(e.detail);
-		});
+		this.component.components.rangePicker.element.addEventListener('date-range-selected', this.onChangeDateFilter);
 	}
+
+	removeEventListeners() {
+		this.component.components.rangePicker.element.removeEventListener('date-range-selected', this.onChangeDateFilter);
+	}
+
+	remove() {
+		this.element.remove();
+	}
+
+	destroy() {
+		this.remove();
+		this.removeEventListeners();
+		this.subElements = {};
+		this.component.destroy();
+	}
+
+	onChangeDateFilter = async ({ detail }) => {
+		this.component.components.tableServer.changeUrlQuery({
+			from: detail.from.toISOString(),
+			to: detail.to.toISOString(),
+		});
+
+		await this.updateChartData(detail);
+	};
 }
