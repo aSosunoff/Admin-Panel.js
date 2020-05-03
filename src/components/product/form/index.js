@@ -1,8 +1,8 @@
-import { ImageUploader } from '../../utils/ImageUploader.js';
-import { HTMLBulder } from '../../utils/HTMLBulder.js';
-import subElements from '../../utils/subElements.js';
-import fetchJson from '../../utils/fetch-json.js';
-import escapeHtml from '../../utils/escape-html.js';
+import { ImageUploader } from '../../../utils/ImageUploader.js';
+import { HTMLBulder } from '../../../utils/HTMLBulder.js';
+import subElements from '../../../utils/subElements.js';
+import fetchJson from '../../../utils/fetch-json.js';
+import escapeHtml from '../../../utils/escape-html.js';
 
 const BACKEND_URL = 'https://course-js.javascript.ru';
 

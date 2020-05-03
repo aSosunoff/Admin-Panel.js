@@ -40,9 +40,3 @@
     justify-content: center;
     color: var(--grey);
 }
-
-.products-edit {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}

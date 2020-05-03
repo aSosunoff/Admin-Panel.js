@@ -3,7 +3,7 @@ import header from './products-header.js';
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
 import subElementsFunc from '../../../utils/subElements.js';
 import { TableInfinityServer } from '../../../components/table/table-infinity-server/index.js';
-import ProductFilter from './filter/index.js';
+import { ProductFilter } from '../../../components/product/filter/index.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 
