@@ -2,7 +2,7 @@ import header from './products-header.js';
 
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
 import subElementsFunc from '../../../utils/subElements.js';
-import { TableInfinityServer } from '../../../components/table/table-infinity-server/index.js';
+import { TableProduct } from '../../../components/product/table/index.js';
 import { ProductFilter } from '../../../components/product/filter/index.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
@@ -39,7 +39,7 @@ export default class Page {
 		const productFilter = new ProductFilter();
 		const { from, to } = productFilter.component.components.sliderContainer.selected;
 
-		const productsContainer = new TableInfinityServer(header, {
+		const productsContainer = new TableProduct(header, {
 			url: new URL('api/rest/products', BACKEND_URL),
 			pageSize: 15,
 			urlQueryPerem: {

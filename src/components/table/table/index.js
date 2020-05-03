@@ -8,7 +8,7 @@ export class Table {
 	sorted = {};
 	data = [];
 
-	static getDateTimeStamp = (val) => {
+	static getDateTimeStamp = val => {
 		if (Date.parse(val)) {
 			return Date.parse(val);
 		} else if (val instanceof Date) {
@@ -16,13 +16,14 @@ export class Table {
 		}
 
 		return -1;
-	}
+	};
 
 	static sort = (() => {
 		const sortStrategy = {
 			number: (direction, a, b) => direction * (a - b),
 			string: (direction, a, b) => direction * new Intl.Collator().compare(a, b),
-			date: (direction, a, b) => direction * (Table.getDateTimeStamp(a) - Table.getDateTimeStamp(b)),
+			date: (direction, a, b) =>
+				direction * (Table.getDateTimeStamp(a) - Table.getDateTimeStamp(b)),
 		};
 
 		return (type, order, a, b) => {
@@ -125,13 +126,13 @@ export class Table {
 		}));
 
 		const templateDefault = data => `<div class="sortable-table__cell">${data}</div>`;
-		
+
 		this.subElements.body.append(
 			...data.map(data =>
 				HTMLBulder.getElementFromString(`
-				<a href="/products/${data.id}" class="sortable-table__row">
+				<div class="sortable-table__row">
 					${cells.map(({ id, template = templateDefault }) => template(data[id])).join('')}
-				</a>`),
+				</div>`),
 			),
 		);
 	}

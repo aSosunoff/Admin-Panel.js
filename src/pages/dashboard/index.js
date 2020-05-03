@@ -4,7 +4,7 @@ import fetchJson from '../../utils/fetch-json.js';
 
 import header from './bestsellers-header.js';
 
-import { TableServer } from '../../components/table/table-server/index.js';
+import { TableProduct } from '../../components/product/table/index.js';
 import { ColumnChart } from '../../components/column-chart/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
 
@@ -56,7 +56,7 @@ export default class Page {
 		};
 
 		this.component
-			.add('tableServer', new TableServer(header, {
+			.add('tableServer', new TableProduct(header, {
 				url: new URL('api/dashboard/bestsellers', BACKEND_URL),
 				urlQueryPerem: {
 					from: filter.from.toISOString(),
