@@ -1,7 +1,7 @@
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
 import subElementsFunc from '../../../utils/subElements.js';
 
-import { ComponentContainer } from '../../../components/component/index.js';
+import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 import { ProductFormComponent } from '../../../components/product-form/index.js';
 import { SortableList } from '../../../components/sortable-list/index.js';
 

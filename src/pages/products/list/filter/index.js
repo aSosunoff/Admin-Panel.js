@@ -4,7 +4,7 @@ import subElements from '../../../../utils/subElements.js';
 import { DoubleSlider } from '../../../../components/double-slider/index.js';
 import { debounceDecorator } from '../../../../utils/debounceDecorator.js';
 
-import { ComponentContainer } from '../../../../components/component/index.js';
+import { ComponentContainer } from '../../../../utils/ComponentContainer.js';
 
 export default class ProductFilter {
 	element;

@@ -8,7 +8,7 @@ import { TableServer } from '../../components/table/table-server/index.js';
 import { ColumnChart } from '../../components/column-chart/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
 
-import { ComponentContainer } from '../../components/component/index.js';
+import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
 const BACKEND_URL = 'https://course-js.javascript.ru';
 
