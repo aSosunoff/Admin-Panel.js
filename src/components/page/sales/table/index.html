@@ -2,7 +2,10 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="../../../../styles/variables.css" />
-	<link rel="stylesheet" href="../../../../components/common/table/table-infinity-server/style.css" />
+	<link
+		rel="stylesheet"
+		href="../../../../components/common/table/table-infinity-server/style.css"
+	/>
 	<style>
 		.sortable-table__row {
 			grid: auto-flow / 10% 33% 33% 12% 12%;
@@ -61,7 +64,7 @@
 
 		const table = new TableSales(header, {
 			url: new URL('api/rest/orders', BACKEND_URL),
-			pageSize: 14,
+			pageSize: 19,
 		});
 
 		table.render();
