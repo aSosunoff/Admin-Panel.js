@@ -1,9 +1,14 @@
 import header from './sales-header.js';
+import headerProduct from './product-header';
 
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import { getSubElements } from '../../utils/getSubElements.js';
+import fetchJson from '../../utils/fetch-json.js';
+
 import { TableSales } from '../../components/page/sales/table/index.js';
 import { RangePicker } from '../../components/common/range-picker/index.js';
+import { Modal } from '../../components/common/modal/index.js';
+import { Table } from '../../components/common/table/table/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
@@ -21,8 +26,9 @@ export default class Page {
                 <h1 class="page-title">Продажи</h1>
             </div>
 						
-            <div data-element="ordersContainer" class="full-height flex-column">
-            </div>
+			<div data-element="ordersContainer" class="full-height flex-column"></div>
+			
+			<div data-element="modalContainer"></div>
 		</div>`;
 	}
 
@@ -39,20 +45,23 @@ export default class Page {
 			to: currentDate,
 		};
 
-		const ordersContainer = new TableSales(header, {
-			url: new URL('api/rest/orders', BACKEND_URL),
-			pageSize: 15,
-			urlQueryPerem: {
-				// eslint-disable-next-line camelcase
-				createdAt_gte: filter.from.toISOString(),
-				// eslint-disable-next-line camelcase
-				createdAt_lte: filter.to.toISOString(),
-			},
-		});
-
 		this.component
-			.add('ordersContainer', ordersContainer)
-			.add('rangePicker', new RangePicker(filter));
+			.add(
+				'ordersContainer',
+				new TableSales(header, {
+					url: new URL('api/rest/orders', BACKEND_URL),
+					pageSize: 15,
+					urlQueryPerem: {
+						// eslint-disable-next-line camelcase
+						createdAt_gte: filter.from.toISOString(),
+						// eslint-disable-next-line camelcase
+						createdAt_lte: filter.to.toISOString(),
+					},
+				}),
+			)
+			.add('rangePicker', new RangePicker(filter))
+			.add('modalContainer', new Modal({ title: 'Продукты' }))
+			.add('ptoductTable', new Table(headerProduct));
 	}
 
 	async render() {
@@ -61,7 +70,9 @@ export default class Page {
 		this.subElements = getSubElements(this.element, '[data-element]');
 
 		await this.component.renderComponents((nameComponent, element) => {
-			this.subElements[nameComponent].append(element);
+			if (this.subElements[nameComponent]) {
+				this.subElements[nameComponent].append(element);
+			}
 		});
 
 		this.initEventListeners();
@@ -70,11 +81,25 @@ export default class Page {
 	}
 
 	initEventListeners() {
-		this.component.components.rangePicker.element.addEventListener('date-range-selected', this.onChangeDateFilter);
+		this.component.components.rangePicker.element.addEventListener(
+			'date-range-selected',
+			this.onChangeDateFilter,
+		);
+		this.component.components.ordersContainer.element.addEventListener(
+			'selected-row',
+			this.onOrdersContainerRowSelected,
+		);
 	}
 
 	removeEventListeners() {
-		this.component.components.rangePicker.element.removeEventListener('date-range-selected', this.onChangeDateFilter);
+		this.component.components.rangePicker.element.removeEventListener(
+			'date-range-selected',
+			this.onChangeDateFilter,
+		);
+		this.component.components.ordersContainer.element.removeEventListener(
+			'selected-row',
+			this.onOrdersContainerRowSelected,
+		);
 	}
 
 	remove() {
@@ -96,4 +121,29 @@ export default class Page {
 			createdAt_lte: detail.to.toISOString(),
 		});
 	};
+
+	onOrdersContainerRowSelected = async ({ detail }) => {
+		const data = [];
+
+		for await (let element of detail.products) {
+			const product = await this.loadProduct(element.product);
+			data.push({ ...product, ...element });
+		}
+
+		this.component.components.ptoductTable.update(data);
+
+		this.component.components.modalContainer.update({
+			body: this.component.components.ptoductTable.element,
+		});
+
+		this.component.components.modalContainer.open();
+	};
+
+	async loadProduct(idProduct) {
+		const url = new URL('api/rest/products', BACKEND_URL);
+		url.searchParams.set('id', idProduct);
+		url.searchParams.set('_embed', 'subcategory.category');
+		const [data] = await fetchJson(url);
+		return data;
+	}
 }

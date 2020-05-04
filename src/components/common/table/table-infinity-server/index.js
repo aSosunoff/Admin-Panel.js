@@ -13,12 +13,14 @@ export class TableInfinityServer extends TableServer {
 		});
 	}
 
+	/**@override*/
 	initEventListeners() {
 		this.infinityElement = new InfinityScroll(this.element);
 		this.element.addEventListener('infinity-scroll', this.onNextPageByInfinity);
 		super.initEventListeners();
 	}
 
+	/**@override*/
 	removeEventListeners() {
 		this.element.removeEventListener('infinity-scroll', this.onNextPageByInfinity);
 		super.removeEventListeners();

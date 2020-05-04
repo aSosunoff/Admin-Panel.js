@@ -109,6 +109,12 @@ export class Table {
 			.join('');
 	}
 
+	update(data = this.data) {
+		this.data = data;
+		
+		this.renderBody();
+	}
+
 	renderBody() {
 		this.subElements.body.innerHTML = '';
 
@@ -159,7 +165,7 @@ export class Table {
 			id,
 			order,
 		};
-
+		
 		this.renderArrow(this.sorted.id, this.sorted.order);
 
 		this.data = this.getSortArray(this.data, this.sorted.id, this.sorted.order);
@@ -169,7 +175,7 @@ export class Table {
 
 	getSortArray(arr, id, order) {
 		const { sortType, sortable } = this.headersConfig.find(e => e.id === id);
-
+		
 		if (typeof sortable !== 'function') {
 			return arr.sort((a, b) => Table.sort(sortType, order, a[id], b[id]));
 		} else {
