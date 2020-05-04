@@ -4,9 +4,9 @@ import fetchJson from '../../utils/fetch-json.js';
 
 import header from './bestsellers-header.js';
 
-import { TableProduct } from '../../components/product/table/index.js';
-import { ColumnChart } from '../../components/column-chart/index.js';
-import { RangePicker } from '../../components/range-picker/index.js';
+import { TableProduct } from '../../components/page/product/table/index.js';
+import { ColumnChart } from '../../components/common/column-chart/index.js';
+import { RangePicker } from '../../components/common/range-picker/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 

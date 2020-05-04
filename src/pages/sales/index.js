@@ -2,8 +2,8 @@ import header from './sales-header.js';
 
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import { getSubElements } from '../../utils/getSubElements.js';
-import { TableSales } from '../../components/sales/table/index.js';
-import { RangePicker } from '../../components/range-picker/index.js';
+import { TableSales } from '../../components/page/sales/table/index.js';
+import { RangePicker } from '../../components/common/range-picker/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 

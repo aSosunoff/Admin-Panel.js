@@ -2,8 +2,8 @@ import { HTMLBulder } from '../../../utils/HTMLBulder.js';
 import { getSubElements } from '../../../utils/getSubElements.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
-import { ProductFormComponent } from '../../../components/product/form/index.js';
-import { SortableList } from '../../../components/sortable-list/index.js';
+import { ProductFormComponent } from '../../../components/page/product/form/index.js';
+import { SortableList } from '../../../components/common/sortable-list/index.js';
 
 export default class Page {
 	element;

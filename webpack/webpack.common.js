@@ -22,6 +22,16 @@ module.exports = {
 		path: path.join(__dirname, '../dist'),
 		chunkFilename: '[name]-[id].js',
 	},
+	resolve: {
+		alias: {
+			/* "@model": path.resolve(__dirname, "src/model"),
+			"@style": path.resolve(__dirname, "src/styles"),
+			"@assets": path.resolve(__dirname, "src/assets"), */
+			"@": path.resolve(__dirname, "../src"),
+			"@components": path.resolve(__dirname, "../src/components"),
+			"@utils": path.resolve(__dirname, "../src/utils"),
+		}
+	},
 	module: {
 		rules: [
 			{

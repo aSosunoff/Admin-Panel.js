@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../../../../styles/variables.css" />
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="../../../../components/common/double-slider/style.css" />
+</head>
+<body>
+	<div id="root" class="products-list"></div>
+
+	<script type="module">
+		import { ProductFilter } from './index.js';
+
+		const productFilter = new ProductFilter();
+
+		productFilter.render();
+
+		productFilter.element.addEventListener('form-filter', ({detail}) => {
+			console.log(detail);
+		});
+
+		window.productFilter = productFilter;
+
+		root.append(productFilter.element);
+	</script>
+</body>
