@@ -50,14 +50,60 @@ export class DoubleSlider {
 		),
 	});
 
+	setLeftPercent(clientX) {
+		let percent =
+			((clientX - this.subElements.inner.getBoundingClientRect().left) /
+				this.subElements.inner.offsetWidth) *
+			100;
+
+		if (0 > percent) {
+			percent = 0;
+		}
+
+		const percentRight = parseFloat(this.subElements.right.style.right);
+
+		if (percentRight + percent > 100) {
+			percent = 100 - percentRight;
+		}
+
+		this.subElements.left.style.left = `${percent}%`;
+		this.subElements.progress.style.left = this.subElements.left.style.left;
+
+		this.setSelected(this.getValue());
+		this.renderValue();
+		this.dispatchChange();
+	}
+
+	setRightPercent(clientX) {
+		let percent =
+			((this.subElements.inner.getBoundingClientRect().right - clientX) /
+				this.subElements.inner.offsetWidth) *
+			100;
+
+		if (0 > percent) {
+			percent = 0;
+		}
+
+		const percentLeft = parseFloat(this.subElements.left.style.left);
+
+		if (percentLeft + percent > 100) {
+			percent = 100 - percentLeft;
+		}
+
+		this.subElements.right.style.right = `${percent}%`;
+		this.subElements.progress.style.right = this.subElements.right.style.right;
+
+		this.setSelected(this.getValue());
+		this.renderValue();
+		this.dispatchChange();
+	}
+
 	initEventListeners() {
-		this.subElements.left.addEventListener('pointerdown', this.onPointerDown);
-		this.subElements.right.addEventListener('pointerdown', this.onPointerDown);
+		this.element.addEventListener('pointerdown', this.onPointerDown);
 	}
 
 	removeEventListener() {
-		this.subElements.left.removeEventListener('pointerdown', this.onPointerDown);
-		this.subElements.right.removeEventListener('pointerdown', this.onPointerDown);
+		this.element.removeEventListener('pointerdown', this.onPointerDown);
 	}
 
 	dispatchSelect() {
@@ -114,11 +160,32 @@ export class DoubleSlider {
 
 	onPointerDown = event => {
 		event.preventDefault();
-		const { target } = event;
-		this.dragElement = target;
+		const { target, clientX } = event;
+
+		if (!target.closest('.range-slider__inner')) {
+			return;
+		}
+
 		this.element.classList.add('range-slider_dragging');
 		document.addEventListener('pointermove', this.onPointerMove);
 		document.addEventListener('pointerup', this.onPointerUp);
+
+		const { left: rightLeft } = this.subElements.right.getBoundingClientRect();
+		const { left: leftLeft } = this.subElements.left.getBoundingClientRect();
+
+		const center = (rightLeft - leftLeft) / 2;
+
+		if (rightLeft - center < clientX) {
+			this.setRightPercent(clientX);
+			this.dragElement = this.subElements.right;
+			return;
+		}
+
+		if (leftLeft + center > clientX) {
+			this.setLeftPercent(clientX);
+			this.dragElement = this.subElements.left;
+			return;
+		}
 	};
 
 	onPointerUp = () => {
@@ -131,48 +198,13 @@ export class DoubleSlider {
 
 	onPointerMove = event => {
 		event.preventDefault();
-		const { clientX } = event;
-		const {
-			dragElement,
-			subElements: { inner, left, right, progress },
-		} = this;
 
-		if (dragElement === left) {
-			let percent = ((clientX - inner.getBoundingClientRect().left) / inner.offsetWidth) * 100;
-
-			if (0 > percent) {
-				percent = 0;
-			}
-
-			const percentRight = parseFloat(right.style.right);
-
-			if (percentRight + percent > 100) {
-				percent = 100 - percentRight;
-			}
-
-			dragElement.style.left = `${percent}%`;
-			progress.style.left = dragElement.style.left;
+		if (this.dragElement === this.subElements.left) {
+			this.setLeftPercent(event.clientX);
 		}
 
-		if (dragElement === right) {
-			let percent = ((inner.getBoundingClientRect().right - clientX) / inner.offsetWidth) * 100;
-
-			if (0 > percent) {
-				percent = 0;
-			}
-
-			const percentLeft = parseFloat(left.style.left);
-
-			if (percentLeft + percent > 100) {
-				percent = 100 - percentLeft;
-			}
-
-			dragElement.style.right = `${percent}%`;
-			progress.style.right = dragElement.style.right;
+		if (this.dragElement === this.subElements.right) {
+			this.setRightPercent(event.clientX);
 		}
-
-		this.setSelected(this.getValue());
-		this.renderValue();
-		this.dispatchChange();
 	};
 }

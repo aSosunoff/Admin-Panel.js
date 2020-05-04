@@ -19,7 +19,9 @@
 			},
 		});
 
-		root.append(slider.element, );
+		slider.render();
+
+		root.append(slider.element);
 
 		slider.element.addEventListener('range-select', event => {
 			console.log(event.detail);
