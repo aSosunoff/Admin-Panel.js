@@ -2,7 +2,7 @@ import header from './sales-header.js';
 
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import { getSubElements } from '../../utils/getSubElements.js';
-import { TableInfinityServer } from '../../components/table/table-infinity-server/index.js';
+import { TableSales } from '../../components/sales/table/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
@@ -39,7 +39,7 @@ export default class Page {
 			to: currentDate,
 		};
 
-		const ordersContainer = new TableInfinityServer(header, {
+		const ordersContainer = new TableSales(header, {
 			url: new URL('api/rest/orders', BACKEND_URL),
 			pageSize: 15,
 			urlQueryPerem: {
