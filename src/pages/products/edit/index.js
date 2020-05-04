@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
-import subElementsFunc from '../../../utils/subElements.js';
+import { getSubElements } from '../../../utils/getSubElements.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 import { ProductFormComponent } from '../../../components/product/form/index.js';
@@ -40,7 +40,7 @@ export default class Page {
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
-		this.subElements = subElementsFunc(this.element, '[data-element]');
+		this.subElements = getSubElements(this.element, '[data-element]');
 
 		await this.component.renderComponents((nameComponent, element) => {
 			this.subElements[nameComponent].append(element);
@@ -59,6 +59,7 @@ export default class Page {
 	}
 
 	initEventListeners() {
+		// TODO: add event submit form
 		/* this.component.components.productFilter.element.addEventListener('form-filter', this.onFilter); */
 	}
 
@@ -80,26 +81,4 @@ export default class Page {
 		this.component.destroy();
 		this.sortableList.destroy();
 	}
-
-	/* onFilter = ({ detail }) => {
-		const filter = {};
-
-		if (detail.filterStatus) {
-			filter.status = detail.filterStatus;
-		}
-
-		if (detail.filterName) {
-			// eslint-disable-next-line camelcase
-			filter.title_like = detail.filterName;
-		}
-
-		this.component.components.productsContainer.changeUrlQuery({
-			_embed: 'subcategory.category',
-			// eslint-disable-next-line camelcase
-			price_gte: detail.filterSlider.from,
-			// eslint-disable-next-line camelcase
-			price_lte: detail.filterSlider.to,
-			...filter,
-		});
-	}; */
 }

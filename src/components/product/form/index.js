@@ -1,6 +1,6 @@
 import { ImageUploader } from '../../../utils/ImageUploader.js';
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
-import subElements from '../../../utils/subElements.js';
+import { getSubElements } from '../../../utils/getSubElements.js';
 import fetchJson from '../../../utils/fetch-json.js';
 import escapeHtml from '../../../utils/escape-html.js';
 
@@ -88,7 +88,7 @@ export class ProductFormComponent {
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
-		this.subElements = subElements(this.element, '[data-elem]');
+		this.subElements = getSubElements(this.element, '[data-elem]');
 
 		await this.renderData(this.idProduct);
 

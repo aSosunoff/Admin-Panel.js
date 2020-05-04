@@ -1,7 +1,7 @@
 import header from './sales-header.js';
 
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
-import subElementsFunc from '../../utils/subElements.js';
+import { getSubElements } from '../../utils/getSubElements.js';
 import { TableInfinityServer } from '../../components/table/table-infinity-server/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
 
@@ -58,7 +58,7 @@ export default class Page {
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
-		this.subElements = subElementsFunc(this.element, '[data-element]');
+		this.subElements = getSubElements(this.element, '[data-element]');
 
 		await this.component.renderComponents((nameComponent, element) => {
 			this.subElements[nameComponent].append(element);

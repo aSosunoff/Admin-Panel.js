@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
-import subElements from '../../../utils/subElements.js';
+import { getSubElements } from '../../../utils/getSubElements.js';
 
 export class Table {
 	element;
@@ -81,7 +81,7 @@ export class Table {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
 		this.subElements = {
-			...subElements(this.element, '[data-elem]'),
+			...getSubElements(this.element, '[data-elem]'),
 			arrow: HTMLBulder.getElementFromString(this.arrowTemplate),
 		};
 

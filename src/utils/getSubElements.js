@@ -15,11 +15,11 @@ const camelize = str => {
 	);
 };
 
-export default (element, attribute) => {
+export function getSubElements (element, attribute) {
 	const nameField = camelize(attribute);
 
 	return Array.from(element.querySelectorAll(attribute)).reduce(
 		(res, subElement) => ((res[subElement.dataset[nameField]] = subElement), res),
 		{},
 	);
-};
+}

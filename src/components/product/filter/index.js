@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
-import subElements from '../../../utils/subElements.js';
+import { getSubElements } from '../../../utils/getSubElements.js';
 
 import { DoubleSlider } from '../../double-slider/index.js';
 import { debounceDecorator } from '../../../utils/debounceDecorator.js';
@@ -57,7 +57,7 @@ export class ProductFilter {
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
-		this.subElements = subElements(this.element, '[data-elem]');
+		this.subElements = getSubElements(this.element, '[data-elem]');
 
 		await this.component.renderComponents((nameComponent, element) => {
 			this.subElements[nameComponent].append(element);

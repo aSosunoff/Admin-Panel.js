@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
-import subElementsFunc from '../../utils/subElements.js';
+import { getSubElements } from '../../utils/getSubElements.js';
 
 export class ColumnChart {
 	element;
@@ -56,7 +56,7 @@ export class ColumnChart {
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
-		this.subElements = subElementsFunc(this.element, '[data-element]');
+		this.subElements = getSubElements(this.element, '[data-element]');
 
 		this.update();
 

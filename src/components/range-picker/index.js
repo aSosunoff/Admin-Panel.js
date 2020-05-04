@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../utils/HTMLBulder.js';
-import subElements from '../../utils/subElements.js';
+import { getSubElements } from '../../utils/getSubElements.js';
 
 export class RangePicker {
 	element;
@@ -202,7 +202,7 @@ export class RangePicker {
 
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
-		this.subElements = subElements(this.element, '[data-elem]');
+		this.subElements = getSubElements(this.element, '[data-elem]');
 		this.renderFromToDate();
 		this.element.addEventListener('click', this.onPickerToggle, true);
 		return this.element;
