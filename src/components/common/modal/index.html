@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+
+		<link rel="stylesheet" href="../../../styles/variables.css" />
+		<link rel="stylesheet" href="./style.css" />
+
+		<style>
+			* {
+				font-family: 'Courier New', Courier, monospace;
+			}
+
+			body {
+				width: 100vw;
+				margin: 0px;
+				height: 100vh;
+				display: grid;
+				align-content: center;
+				justify-content: center;
+			}
+
+			button {
+				padding: 10px 40px;
+				background-color: var(--middle-blue);
+				border: 0;
+				cursor: pointer;
+				box-shadow: 2px 2px 9px 1px var(--grey-light);
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<button>Открыть</button>
+
+		<script type="module">
+			import { Modal } from './index.js';
+
+			const modal = new Modal({ title: 'Модальное окно' });
+
+			modal.render();
+
+			window.modal = modal;
+
+			const button = document.querySelector('button');
+			button.addEventListener('click', e => {
+				modal.open();
+			});
+		</script>
+	</body>
+</html>

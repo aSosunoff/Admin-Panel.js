@@ -1,0 +1,48 @@
+.modal-background {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: grid;
+	justify-items: center;
+	align-items: center;
+}
+
+.modal-background__container {
+	width: 70%;
+	height: 70%;
+	background-color: #fff;
+	display: grid;
+	grid-template-rows: 50px;
+}
+
+.modal-background__header {
+	background-color: var(--middle-blue);
+	display: grid;
+	grid-template-columns: 1fr 50px;
+}
+
+.modal-background__title {
+	display: grid;
+	align-items: center;
+	padding: 0px 10px;
+}
+
+.modal-background__close {
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	transition: 0.2s all linear;
+	-webkit-transition: 0.2s all linear;
+	-moz-transition: 0.2s all linear;
+	-ms-transition: 0.2s all linear;
+	-o-transition: 0.2s all linear;
+	background: url(close.svg) center no-repeat;
+}
+.modal-background__close:hover {
+	background-color: var(--blue);
+	cursor: pointer;
+}
+
+.modal-background__body {
+}
