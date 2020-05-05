@@ -160,7 +160,12 @@ export class DoubleSlider {
 
 	onPointerDown = event => {
 		event.preventDefault();
-		const { target, clientX } = event;
+		
+		const { target, clientX, buttons } = event;
+
+		if (buttons !== 1) {
+			return;
+		}
 
 		if (!target.closest('.range-slider__inner')) {
 			return;

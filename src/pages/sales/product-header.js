@@ -11,8 +11,8 @@ const header = [
 				${data.map(e => `<img src='${e.url}'>`).join('')}
 			</div>`;
 			return `
-			<div class="sortable-table__cell" data-tooltip="${tooltip}">
-				<img class="sortable-table-image" alt="Image" src="${data[0].url}">
+			<div class="sortable-table__cell">
+				<img class="sortable-table-image" alt="Image" src="${data[0].url}" data-tooltip="${tooltip}">
 			</div>`;
 		},
 	},
