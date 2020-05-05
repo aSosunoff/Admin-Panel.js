@@ -1,4 +1,4 @@
-import { debounceDecorator } from '../../../utils/debounceDecorator.js';
+import { debounceDecorator } from '../../utils/debounceDecorator.js';
 
 export class InfinityScroll {
 	get checkBottomBorder() {

@@ -1,5 +1,5 @@
-import { HTMLBulder } from '../../../utils/HTMLBulder.js';
-import { getSubElements } from '../../../utils/getSubElements.js';
+import { HTMLBulder } from '../../utils/HTMLBulder.js';
+import { getSubElements } from '../../utils/getSubElements.js';
 
 export class RangePicker {
 	element;

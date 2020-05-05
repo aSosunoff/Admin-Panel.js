@@ -6,9 +6,9 @@ import { getSubElements } from '../../utils/getSubElements.js';
 import fetchJson from '../../utils/fetch-json.js';
 
 import { TableSales } from './components/table/index.js';
-import { RangePicker } from '../../components/common/range-picker/index.js';
-import { Modal } from '../../components/common/modal/index.js';
-import { Table } from '../../components/common/table/table/index.js';
+import { RangePicker } from '../../components/range-picker/index.js';
+import { Modal } from '../../components/modal/index.js';
+import { Table } from '../../components/table/table/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 

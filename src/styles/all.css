@@ -2,15 +2,15 @@
 
 /* Styles for components  */
 /* components */
-@import url("../components/common/table/table-server/style.css");
-@import url("../components/common/sortable-list/style.css");
-@import url("../components/common/double-slider/style.css");
-@import url("../components/common/notification/style.css");
-@import url("../components/common/range-picker/style.css");
-@import url("../components/common/tooltip/style.css");
-@import url("../components/common/column-chart/style.css");
-@import url("../components/common/modal/style.css");
-@import url("../components/common/category/style.css");
+@import url("../components/table/table-server/style.css");
+@import url("../components/sortable-list/style.css");
+@import url("../components/double-slider/style.css");
+@import url("../components/notification/style.css");
+@import url("../components/range-picker/style.css");
+@import url("../components/tooltip/style.css");
+@import url("../components/column-chart/style.css");
+@import url("../components/modal/style.css");
+@import url("../components/category/style.css");
 
 /* Styles for pages  */
 /* pages */

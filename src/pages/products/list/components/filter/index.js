@@ -1,7 +1,7 @@
 import { HTMLBulder } from '../../../../../utils/HTMLBulder.js';
 import { getSubElements } from '../../../../../utils/getSubElements.js';
 
-import { DoubleSlider } from '../../../../../components/common/double-slider/index.js';
+import { DoubleSlider } from '../../../../../components/double-slider/index.js';
 import { debounceDecorator } from '../../../../../utils/debounceDecorator.js';
 
 import { ComponentContainer } from '../../../../../utils/ComponentContainer.js';

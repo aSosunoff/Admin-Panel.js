@@ -5,8 +5,8 @@ import fetchJson from '../../utils/fetch-json.js';
 import header from './bestsellers-header.js';
 
 import { TableProduct } from '../../pages/products/list/components/table/index.js';
-import { ColumnChart } from '../../components/common/column-chart/index.js';
-import { RangePicker } from '../../components/common/range-picker/index.js';
+import { ColumnChart } from '../../components/column-chart/index.js';
+import { RangePicker } from '../../components/range-picker/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 

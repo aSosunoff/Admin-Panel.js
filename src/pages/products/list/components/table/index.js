@@ -1,5 +1,5 @@
 import { HTMLBulder } from '../../../../../utils/HTMLBulder.js';
-import { TableInfinityServer } from '../../../../../components/common/table/table-infinity-server/index.js';
+import { TableInfinityServer } from '../../../../../components/table/table-infinity-server/index.js';
 
 export class TableProduct extends TableInfinityServer {
 	constructor(headersConfig, { url = null, sorted, pageSize = 5, urlQueryPerem = {} } = {}) {

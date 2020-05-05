@@ -1,4 +1,4 @@
-import { Table } from '../../components/common/table/table/index.js';
+import { Table } from '../../components/table/table/index.js';
 
 const header = [
 	{

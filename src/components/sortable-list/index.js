@@ -1,4 +1,4 @@
-import { HTMLBulder } from '../../../utils/HTMLBulder.js';
+import { HTMLBulder } from '../../utils/HTMLBulder.js';
 
 export class SortableList {
 	element = null;

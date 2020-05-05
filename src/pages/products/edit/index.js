@@ -3,7 +3,7 @@ import { getSubElements } from '../../../utils/getSubElements.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 import { ProductFormComponent } from './components/form/index.js';
-import { SortableList } from '../../../components/common/sortable-list/index.js';
+import { SortableList } from '../../../components/sortable-list/index.js';
 
 export default class Page {
 	element;

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="../../../../styles/variables.css" />
+	<link rel="stylesheet" href="../../../styles/variables.css" />
 	<link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 	<div id="root"></div>
 
 	<script type="module">
-		import { TableServer } from './index.js';
+		import { Table } from './index.js';
+		import data from './products-data.js';
 
 		const header = [
 			{
@@ -54,7 +55,7 @@
 					`;
 				},
 			}, */
-			{
+			/* {
 				id: 'status',
 				title: 'Статус',
 				sortable: (order, a, b) => (order === 'asc' ? -1 : 1) * (a - b),
@@ -65,15 +66,22 @@
 					</div>
 					`;
 				},
+			}, */
+			{
+				id: 'date',
+				title: 'Дата',
+				sortType: 'date',
+				template: data => {
+					let dateString = '';
+					if (Date.parse(data)) {
+						dateString = new Date(data).toLocaleDateString('ru', { day: '2-digit', month: '2-digit', year: 'numeric' });
+					}
+					return `<div class="sortable-table__cell">${dateString}</div>`;
+				},
 			},
 		];
 
-		const BACKEND_URL = 'https://course-js.javascript.ru';
-
-		// 'api/rest/products'
-		const table = new TableServer(header, {
-			url: new URL('api/dashboard/bestsellers', BACKEND_URL),
-			pageSize: 14 });
+		const table = new Table(header, { data });
 
 		table.render();
 

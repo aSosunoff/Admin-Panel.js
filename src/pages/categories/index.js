@@ -2,7 +2,7 @@ import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import { getSubElements } from '../../utils/getSubElements.js';
 import fetchJson from '../../utils/fetch-json.js';
 
-import { Category } from '../../components/common/category/index.js';
+import { Category } from '../../components/category/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
