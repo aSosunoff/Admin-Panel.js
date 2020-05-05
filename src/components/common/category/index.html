@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../../../styles/variables.css" />
+	<link rel="stylesheet" href="../sortable-list/style.css" />
+	<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+	<div id="root"></div>
+
+	<script type="module">
+		import { Category } from './index.js';
+
+		const category = new Category({
+			title: 'TEST',
+			data: [{
+				title: '1',
+				text: '1',
+			},
+			{
+				title: '2',
+				text: '2',
+			},
+			{
+				title: '3',
+				text: '3',
+			}]
+		});
+
+		category.render();
+
+		window.category = category;
+
+		root.append(category.element);
+	</script>
+</body>
