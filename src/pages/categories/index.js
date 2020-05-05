@@ -6,8 +6,6 @@ import { Category } from '../../components/common/category/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export default class Page {
 	element;
 	subElements = {};
@@ -80,7 +78,7 @@ export default class Page {
 	}
 
 	async loadCategories() {
-		const url = new URL('api/rest/categories', BACKEND_URL);
+		const url = new URL('api/rest/categories', process.env.BACKEND_URL);
 		url.searchParams.set('_sort', 'weight');
 		url.searchParams.set('_refs', 'subcategory');
 		const data = await fetchJson(url);

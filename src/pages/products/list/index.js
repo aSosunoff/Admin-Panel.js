@@ -7,8 +7,6 @@ import { ProductFilter } from '../../../components/page/product/filter/index.js'
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export default class Page {
 	element;
 	subElements = {};
@@ -40,7 +38,7 @@ export default class Page {
 		const { from, to } = productFilter.component.components.sliderContainer.selected;
 
 		const productsContainer = new TableProduct(header, {
-			url: new URL('api/rest/products', BACKEND_URL),
+			url: new URL('api/rest/products', process.env.BACKEND_URL),
 			pageSize: 15,
 			urlQueryPerem: {
 				_embed: 'subcategory.category',

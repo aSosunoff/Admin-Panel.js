@@ -10,8 +10,6 @@ import { RangePicker } from '../../components/common/range-picker/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export default class Page {
 	element;
 	subElements = {};
@@ -57,7 +55,7 @@ export default class Page {
 
 		this.component
 			.add('tableServer', new TableProduct(header, {
-				url: new URL('api/dashboard/bestsellers', BACKEND_URL),
+				url: new URL('api/dashboard/bestsellers', process.env.BACKEND_URL),
 				urlQueryPerem: {
 					from: filter.from.toISOString(),
 					to: filter.to.toISOString(),
@@ -90,7 +88,7 @@ export default class Page {
 	}
 
 	async getDataChart({ url, from, to }) {
-		const chartUrl = new URL(url, BACKEND_URL);
+		const chartUrl = new URL(url, process.env.BACKEND_URL);
 		chartUrl.searchParams.set('from', from.toISOString());
 		chartUrl.searchParams.set('to', to.toISOString());
 		const chartData = await fetchJson(chartUrl);

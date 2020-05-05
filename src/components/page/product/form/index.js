@@ -4,8 +4,6 @@ import { getSubElements } from '../../../../utils/getSubElements.js';
 import fetchJson from '../../../../utils/fetch-json.js';
 import escapeHtml from '../../../../utils/escape-html.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export class ProductFormComponent {
 	element;
 	subElements = {};
@@ -151,7 +149,7 @@ export class ProductFormComponent {
 
 	async loadProduct(idProduct) {
 		try {
-			const url = new URL('api/rest/products', BACKEND_URL);
+			const url = new URL('api/rest/products', process.env.BACKEND_URL);
 			url.searchParams.set('id', idProduct);
 			const [data] = await fetchJson(url);
 			return data;
@@ -163,7 +161,7 @@ export class ProductFormComponent {
 
 	async loadSubcategory() {
 		try {
-			const url = new URL('api/rest/categories', BACKEND_URL);
+			const url = new URL('api/rest/categories', process.env.BACKEND_URL);
 			url.searchParams.set('_sort', 'weight');
 			url.searchParams.set('_refs', 'subcategory');
 			const data = await fetchJson(url);
@@ -293,7 +291,7 @@ export class ProductFormComponent {
 	onSubmit = async event => {
 		event.preventDefault();
 		const formData = this.getFormData();
-		const url = new URL('api/rest/products', BACKEND_URL);
+		const url = new URL('api/rest/products', process.env.BACKEND_URL);
 
 		try {
 			const product = await fetchJson(url, {

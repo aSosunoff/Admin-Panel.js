@@ -12,8 +12,6 @@ import { Table } from '../../components/common/table/table/index.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
-const BACKEND_URL = 'https://course-js.javascript.ru';
-
 export default class Page {
 	element;
 	subElements = {};
@@ -49,7 +47,7 @@ export default class Page {
 			.add(
 				'ordersContainer',
 				new TableSales(header, {
-					url: new URL('api/rest/orders', BACKEND_URL),
+					url: new URL('api/rest/orders', process.env.BACKEND_URL),
 					pageSize: 15,
 					urlQueryPerem: {
 						// eslint-disable-next-line camelcase
@@ -140,7 +138,7 @@ export default class Page {
 	};
 
 	async loadProduct(idProduct) {
-		const url = new URL('api/rest/products', BACKEND_URL);
+		const url = new URL('api/rest/products', process.env.BACKEND_URL);
 		url.searchParams.set('id', idProduct);
 		url.searchParams.set('_embed', 'subcategory.category');
 		const [data] = await fetchJson(url);
