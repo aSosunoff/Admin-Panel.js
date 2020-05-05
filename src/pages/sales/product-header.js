@@ -6,11 +6,14 @@ const header = [
 		title: 'Фото',
 		sortable: false,
 		template: data => {
+			const tooltip = `
+			<div class='sortable-table-tooltip-img'>
+				${data.map(e => `<img src='${e.url}'>`).join('')}
+			</div>`;
 			return `
-		  <div class="sortable-table__cell">
-			<img class="sortable-table-image" alt="Image" src="${data[0].url}">
-		  </div>
-		`;
+			<div class="sortable-table__cell" data-tooltip="${tooltip}">
+				<img class="sortable-table-image" alt="Image" src="${data[0].url}">
+			</div>`;
 		},
 	},
 	{
@@ -28,7 +31,7 @@ const header = [
 			<div class='sortable-table-tooltip'>
 				<span class='sortable-table-tooltip__category'>${data.category.title}</span> /
 				<b class='sortable-table-tooltip__subcategory'>${data.title}</b>
-			  </div>`;
+			</div>`;
 
 			return `<div class="sortable-table__cell" data-tooltip="${tooltip}">${data.title}</div>`;
 		},
