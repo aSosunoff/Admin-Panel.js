@@ -1,8 +1,8 @@
-import { ImageUploader } from '../../../../utils/ImageUploader.js';
-import { HTMLBulder } from '../../../../utils/HTMLBulder.js';
-import { getSubElements } from '../../../../utils/getSubElements.js';
-import fetchJson from '../../../../utils/fetch-json.js';
-import escapeHtml from '../../../../utils/escape-html.js';
+import { ImageUploader } from '../../../../../utils/ImageUploader.js';
+import { HTMLBulder } from '../../../../../utils/HTMLBulder.js';
+import { getSubElements } from '../../../../../utils/getSubElements.js';
+import fetchJson from '../../../../../utils/fetch-json.js';
+import escapeHtml from '../../../../../utils/escape-html.js';
 
 export class ProductFormComponent {
 	element;

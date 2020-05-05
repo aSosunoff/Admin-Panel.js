@@ -4,7 +4,7 @@ import fetchJson from '../../utils/fetch-json.js';
 
 import header from './bestsellers-header.js';
 
-import { TableProduct } from '../../components/page/product/table/index.js';
+import { TableProduct } from '../../pages/products/list/components/table/index.js';
 import { ColumnChart } from '../../components/common/column-chart/index.js';
 import { RangePicker } from '../../components/common/range-picker/index.js';
 

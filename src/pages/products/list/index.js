@@ -2,8 +2,8 @@ import header from './products-header.js';
 
 import { HTMLBulder } from '../../../utils/HTMLBulder.js';
 import { getSubElements } from '../../../utils/getSubElements.js';
-import { TableProduct } from '../../../components/page/product/table/index.js';
-import { ProductFilter } from '../../../components/page/product/filter/index.js';
+import { TableProduct } from './components/table/index.js';
+import { ProductFilter } from './components/filter/index.js';
 
 import { ComponentContainer } from '../../../utils/ComponentContainer.js';
 

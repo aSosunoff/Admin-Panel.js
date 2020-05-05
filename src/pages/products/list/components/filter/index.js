@@ -1,10 +1,10 @@
-import { HTMLBulder } from '../../../../utils/HTMLBulder.js';
-import { getSubElements } from '../../../../utils/getSubElements.js';
+import { HTMLBulder } from '../../../../../utils/HTMLBulder.js';
+import { getSubElements } from '../../../../../utils/getSubElements.js';
 
-import { DoubleSlider } from '../../../../components/common/double-slider/index.js';
-import { debounceDecorator } from '../../../../utils/debounceDecorator.js';
+import { DoubleSlider } from '../../../../../components/common/double-slider/index.js';
+import { debounceDecorator } from '../../../../../utils/debounceDecorator.js';
 
-import { ComponentContainer } from '../../../../utils/ComponentContainer.js';
+import { ComponentContainer } from '../../../../../utils/ComponentContainer.js';
 
 export class ProductFilter {
 	element;
