@@ -18,9 +18,20 @@ export class TableServer extends TablePagging {
 
 		this.paggination = { ...this.paggination, page: 1 };
 
+		this.element.classList.add('sortable-table_loading');
+
 		const firstPage = await this.getDataOfPage(1);
 
+		this.element.classList.remove('sortable-table_loading');
+
 		this.data = firstPage;
+
+		if (!this.data.length) {
+			this.element.classList.add('sortable-table_empty');
+			return;
+		}
+
+		this.element.classList.remove('sortable-table_empty');
 
 		this.renderNextRows(firstPage);
 	}

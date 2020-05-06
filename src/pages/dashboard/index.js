@@ -17,7 +17,7 @@ export default class Page {
 
 	get template() {
 		return `
-		<div class="dashboard">
+		<div class="dashboard full-height flex-column" data-element="tableServer">
 			<div class="content__top-panel">
 				<h2 class="page-title">Панель управления</h2>
 				<div data-element="rangePicker">
@@ -33,10 +33,6 @@ export default class Page {
 			</div>
 
 			<h3 class="block-title">Лидеры продаж</h3>
-
-			<div data-element="tableServer">
-				<!-- sortable-table component -->
-			</div>
 		</div>`;
 	}
 
@@ -55,6 +51,7 @@ export default class Page {
 
 		this.component
 			.add('tableServer', new TableProduct(header, {
+				// eslint-disable-next-line no-undef
 				url: new URL('api/dashboard/bestsellers', process.env.BACKEND_URL),
 				urlQueryPerem: {
 					from: filter.from.toISOString(),
@@ -80,14 +77,15 @@ export default class Page {
 			this.subElements[nameComponent].append(element);
 		});
 
-		await this.initEventListeners();
+		this.initEventListeners();
 
-		await this.updateChartData(this.component.components.rangePicker.selected);
+		this.updateChartData(this.component.components.rangePicker.selected);
 
 		return this.element;
 	}
 
 	async getDataChart({ url, from, to }) {
+		// eslint-disable-next-line no-undef
 		const chartUrl = new URL(url, process.env.BACKEND_URL);
 		chartUrl.searchParams.set('from', from.toISOString());
 		chartUrl.searchParams.set('to', to.toISOString());
@@ -143,6 +141,6 @@ export default class Page {
 			to: detail.to.toISOString(),
 		});
 
-		await this.updateChartData(detail);
+		this.updateChartData(detail);
 	};
 }

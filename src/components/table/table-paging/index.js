@@ -22,6 +22,13 @@ export class TablePagging extends Table {
 	/**@override */
 	renderBody() {
 		this.subElements.body.innerHTML = '';
+
+		if (!this.data.length) {
+			this.element.classList.add('sortable-table_empty');
+			return;
+		}
+
+		this.element.classList.remove('sortable-table_empty');
 		
 		this.paggination = { ...this.paggination, page: 1 };
 

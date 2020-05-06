@@ -18,7 +18,10 @@ const camelize = str => {
 export function getSubElements (element, attribute) {
 	const nameField = camelize(attribute);
 
-	return Array.from(element.querySelectorAll(attribute)).reduce(
+	const div = document.createElement('div');
+	div.append(element);
+	
+	return Array.from(div.querySelectorAll(attribute)).reduce(
 		(res, subElement) => ((res[subElement.dataset[nameField]] = subElement), res),
 		{},
 	);

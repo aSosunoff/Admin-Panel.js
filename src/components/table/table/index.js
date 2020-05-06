@@ -47,12 +47,13 @@ export class Table {
 			<div data-elem="loading" class="loading-line sortable-table__loading-line"></div>
 			
 			<div data-elem="emptyPlaceholder" class="sortable-table__empty-placeholder">
-				<div>
-					<p>No products satisfies your filter criteria</p>
-					<button type="button" class="button-primary-outline">Reset all filters</button>
-				</div>
+				${this.templateEmptyPlaceholder}
 			</div>
 		</div>`;
+	}
+
+	get templateEmptyPlaceholder() {
+		return '<div>нет данных</div>';
 	}
 
 	get arrowTemplate() {
@@ -111,21 +112,24 @@ export class Table {
 
 	update(data = this.data) {
 		this.data = data;
-		
+
 		this.renderBody();
 	}
 
 	renderBody() {
 		this.subElements.body.innerHTML = '';
 
+		if (!this.data.length) {
+			this.element.classList.add('sortable-table_empty');
+			return;
+		}
+
+		this.element.classList.remove('sortable-table_empty');
+
 		this.renderNextRows(this.data);
 	}
 
 	renderNextRows(data = []) {
-		if (!data.length) {
-			return;
-		}
-
 		const cells = this.headersConfig.map(({ id, template }) => ({
 			id,
 			template,
@@ -165,7 +169,7 @@ export class Table {
 			id,
 			order,
 		};
-		
+
 		this.renderArrow(this.sorted.id, this.sorted.order);
 
 		this.data = this.getSortArray(this.data, this.sorted.id, this.sorted.order);
@@ -175,7 +179,7 @@ export class Table {
 
 	getSortArray(arr, id, order) {
 		const { sortType, sortable } = this.headersConfig.find(e => e.id === id);
-		
+
 		if (typeof sortable !== 'function') {
 			return arr.sort((a, b) => Table.sort(sortType, order, a[id], b[id]));
 		} else {
