@@ -68,17 +68,15 @@ export class ProductFilter {
 		return this.element;
 	}
 
-	dispatch() {
-		this.element.dispatchEvent(
-			new CustomEvent('form-filter', {
-				bubbles: true,
-				detail: {
-					filterName: this.subElements.filterName.value,
-					filterStatus: this.subElements.filterStatus.value,
-					filterSlider: this.component.components.sliderContainer.getValue(),
-				},
-			}),
-		);
+	reset() {
+		this.subElements.filterName.value = '';
+		this.subElements.filterStatus.selectedIndex = 0;
+		this.component.components.sliderContainer.reset();
+		return {
+			filterName: this.subElements.filterName.value,
+			filterStatus: this.subElements.filterStatus.value,
+			filterSlider: this.component.components.sliderContainer.getValue(),
+		};
 	}
 
 	initEventListeners() {
@@ -109,19 +107,21 @@ export class ProductFilter {
 	}
 
 	onFilter = ({ target }) => {
-		if (target.closest('[data-elem="filterName"]')) {
-			this.dispatch();
-			return;
-		}
-
-		if (target.closest('[data-elem="filterStatus"]')) {
-			this.dispatch();
-			return;
-		}
-
-		if (target.closest('.range-slider')) {
-			this.dispatch();
-			return;
+		if (
+			target.closest('[data-elem="filterName"]') ||
+			target.closest('[data-elem="filterStatus"]') ||
+			target.closest('.range-slider')
+		) {
+			this.element.dispatchEvent(
+				new CustomEvent('filter', {
+					bubbles: true,
+					detail: {
+						filterName: this.subElements.filterName.value,
+						filterStatus: this.subElements.filterStatus.value,
+						filterSlider: this.component.components.sliderContainer.getValue(),
+					},
+				}),
+			);
 		}
 	};
 }

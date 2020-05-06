@@ -28,6 +28,7 @@ export class DoubleSlider {
 			to: max,
 		},
 	} = {}) {
+		this.resetSelected = selected;
 		this.setSelected({ ...selected, min, max });
 		this.formatValue = formatValue;
 	}
@@ -39,6 +40,13 @@ export class DoubleSlider {
 		this.renderValue();
 		this.initEventListeners();
 		return this.element;
+	}
+
+	reset() {
+		this.setSelected({...this.resetSelected});
+		this.renderValue();
+		this.renderThumb();
+		return this.selected;
 	}
 
 	getValue = () => ({
@@ -104,15 +112,6 @@ export class DoubleSlider {
 
 	removeEventListener() {
 		this.element.removeEventListener('pointerdown', this.onPointerDown);
-	}
-
-	dispatchSelect() {
-		this.element.dispatchEvent(
-			new CustomEvent('range-select', {
-				bubbles: true,
-				detail: this.selected,
-			}),
-		);
 	}
 
 	dispatchChange() {
@@ -198,7 +197,12 @@ export class DoubleSlider {
 		document.removeEventListener('pointermove', this.onPointerMove);
 		document.removeEventListener('pointerup', this.onPointerUp);
 		delete this.dragElement;
-		this.dispatchSelect();
+		this.element.dispatchEvent(
+			new CustomEvent('range-select', {
+				bubbles: true,
+				detail: this.selected,
+			}),
+		);
 	};
 
 	onPointerMove = event => {

@@ -37,21 +37,21 @@ export default class Page {
 		const productFilter = new ProductFilter();
 		const { from, to } = productFilter.component.components.sliderContainer.selected;
 
-		const productsContainer = new TableProduct(header, {
-			url: new URL('api/rest/products', process.env.BACKEND_URL),
-			pageSize: 15,
-			urlQueryPerem: {
-				_embed: 'subcategory.category',
-				// eslint-disable-next-line camelcase
-				price_gte: from,
-				// eslint-disable-next-line camelcase
-				price_lte: to,
-			},
-		});
-
-		this.component
-			.add('productFilter', productFilter)
-			.add('productsContainer', productsContainer);
+		this.component.add('productFilter', productFilter).add(
+			'productsContainer',
+			new TableProduct(header, {
+				// eslint-disable-next-line no-undef
+				url: new URL('api/rest/products', process.env.BACKEND_URL),
+				pageSize: 15,
+				urlQueryPerem: {
+					_embed: 'subcategory.category',
+					// eslint-disable-next-line camelcase
+					price_gte: from,
+					// eslint-disable-next-line camelcase
+					price_lte: to,
+				},
+			}),
+		);
 	}
 
 	async render() {
@@ -69,13 +69,18 @@ export default class Page {
 	}
 
 	initEventListeners() {
-		this.component.components.productFilter.element.addEventListener('form-filter', this.onFilter);
+		this.component.components.productFilter.element.addEventListener('filter', this.onFilter);
+		this.component.components.productsContainer.element.addEventListener(
+			'clear-filter',
+			this.onClearFilter,
+		);
 	}
 
 	removeEventListeners() {
-		this.component.components.productFilter.element.removeEventListener(
-			'form-filter',
-			this.onFilter,
+		this.component.components.productFilter.element.removeEventListener('filter', this.onFilter);
+		this.component.components.productsContainer.element.removeEventListener(
+			'clear-filter',
+			this.onClearFilter,
 		);
 	}
 
@@ -109,6 +114,18 @@ export default class Page {
 			// eslint-disable-next-line camelcase
 			price_lte: detail.filterSlider.to,
 			...filter,
+		});
+	};
+
+	onClearFilter = () => {
+		const filterData = this.component.components.productFilter.reset();
+		
+		this.component.components.productsContainer.changeUrlQuery({
+			_embed: 'subcategory.category',
+			// eslint-disable-next-line camelcase
+			price_gte: filterData.filterSlider.from,
+			// eslint-disable-next-line camelcase
+			price_lte: filterData.filterSlider.to,
 		});
 	};
 }

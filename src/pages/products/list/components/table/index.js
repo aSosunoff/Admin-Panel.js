@@ -12,6 +12,13 @@ export class TableProduct extends TableInfinityServer {
 	}
 
 	/**@override*/
+	get templateEmptyPlaceholder() {
+		return `
+		<p>Не найдено товаров удовлетворяющих выбранному критерию</p>
+		<button type="button" class="button-primary-outline">Очистить фильтры</button>`;
+	}
+
+	/**@override*/
 	renderNextRows(data = []) {
 		if (!data.length) {
 			return;
@@ -33,4 +40,24 @@ export class TableProduct extends TableInfinityServer {
 			),
 		);
 	}
+
+	/**@override*/
+	initEventListeners() {
+		this.element.addEventListener('click', this.onClearFilter);
+		super.initEventListeners();
+	}
+
+	/**@override*/
+	removeEventListeners() {
+		this.element.removeEventListener('click', this.onClearFilter);
+		super.removeEventListeners();
+	}
+
+	onClearFilter = ({ target }) => {
+		if (target.closest('.button-primary-outline')) {
+			this.element.dispatchEvent(
+				new CustomEvent('clear-filter', { bubbles: true }),
+			);
+		}
+	};
 }
