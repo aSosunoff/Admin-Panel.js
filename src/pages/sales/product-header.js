@@ -1,4 +1,5 @@
 import { Table } from '../../components/table/table/index.js';
+import { priceFormat } from '../../utils/priceFormat.js';
 
 const header = [
 	{
@@ -44,6 +45,9 @@ const header = [
 		title: 'Цена',
 		sortable: true,
 		sortType: 'number',
+		template: data => {
+			return `<div class="sortable-table__cell">${priceFormat(data)}</div>`;
+		},
 	},
 	{
 		id: 'count',

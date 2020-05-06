@@ -7,6 +7,7 @@ import header from './bestsellers-header.js';
 import { TableDashboard } from './componenets/table/index.js';
 import { ColumnChart } from '../../components/column-chart/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
+import { priceFormat } from '../../utils/priceFormat.js';
 
 import { ComponentContainer } from '../../utils/ComponentContainer.js';
 
@@ -100,18 +101,20 @@ export default class Page {
 			this.getDataChart({ url: 'api/dashboard/customers', from, to }),
 		]);
 
+		const sum = (numberArray) => numberArray.reduce((result, currentNumber) => result + currentNumber, 0);
+
 		this.component.components.ordersChart.update({
-			headerData: Object.values(orderData).reduce((r, e) => r + e, 0),
+			headerData: sum(Object.values(orderData)),
 			bodyData: Object.values(orderData),
 		});
 
 		this.component.components.salesChart.update({
-			headerData: '$ ' + Object.values(salesData).reduce((r, e) => r + e, 0),
+			headerData: priceFormat(sum(Object.values(salesData))),
 			bodyData: Object.values(salesData),
 		});
 
 		this.component.components.customersChart.update({
-			headerData: Object.values(customersData).reduce((r, e) => r + e, 0),
+			headerData: sum(Object.values(customersData)),
 			bodyData: Object.values(customersData),
 		});
 	}
