@@ -3,6 +3,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: 'production',
@@ -33,5 +34,11 @@ module.exports = merge(common, {
 			openAnalyzer: false,
 			analyzerMode: 'static',
 		}),
+		new CopyWebpackPlugin([
+			{
+				from: path.resolve(__dirname, '../src/assets/'),
+				to: path.resolve(__dirname, '../build/assets/'),
+			},
+		]),
 	],
 });

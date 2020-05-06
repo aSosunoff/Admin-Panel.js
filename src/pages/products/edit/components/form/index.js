@@ -188,12 +188,12 @@ export class ProductFormComponent {
 			HTMLBulder.getElementFromString(`
 			<li class="products-edit__imagelist-item sortable-list__item" style="">
 				<span>
-					<img src="./icon-grab.svg" data-grab-handle="" alt="grab"/>
+					<img src="/assets/icons/icon-grab.svg" data-grab-handle="" alt="grab"/>
 					<img class="sortable-table__cell-img" alt="${escapeHtml(source)}" src="${escapeHtml(url)}"/>
 					<span>${escapeHtml(source)}</span>
 				</span>
 				<button type="button">
-					<img src="./icon-trash.svg" data-delete-handle="" alt="delete"/>
+					<img src="/assets/icons/icon-trash.svg" data-delete-handle="" alt="delete"/>
 				</button>
 			</li>`),
 		);
