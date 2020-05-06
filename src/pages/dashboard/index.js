@@ -4,7 +4,7 @@ import fetchJson from '../../utils/fetch-json.js';
 
 import header from './bestsellers-header.js';
 
-import { TableProduct } from '../../pages/products/list/components/table/index.js';
+import { TableDashboard } from './componenets/table/index.js';
 import { ColumnChart } from '../../components/column-chart/index.js';
 import { RangePicker } from '../../components/range-picker/index.js';
 
@@ -50,7 +50,7 @@ export default class Page {
 		};
 
 		this.component
-			.add('tableServer', new TableProduct(header, {
+			.add('tableServer', new TableDashboard(header, {
 				// eslint-disable-next-line no-undef
 				url: new URL('api/dashboard/bestsellers', process.env.BACKEND_URL),
 				urlQueryPerem: {
