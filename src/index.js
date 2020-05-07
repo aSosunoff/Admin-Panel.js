@@ -21,7 +21,6 @@ window.NotificationManager = new NotificationManager(
 	{
 		nameMethod: 'error',
 		instance: new NotificationError('Ошибка', 'Возникла ошибка', {
-			duration: 2000,
 			isClose: true,
 		}),
 	},
