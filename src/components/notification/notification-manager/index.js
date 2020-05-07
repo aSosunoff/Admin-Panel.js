@@ -1,27 +1,36 @@
 import { NotificationMessage } from '../notification/index.js';
 
 export class NotificationManager {
+	static instance;
+
 	target;
 	stackLimit;
 	notificationsList;
 
 	constructor({ target = document.body, stackLimit = 4 } = {}, ...notifications) {
+
+		if (NotificationManager.instance) {
+			return NotificationManager.instance;
+		}
+
+		NotificationManager.instance = this;
+
 		this.target = target;
 		this.stackLimit = stackLimit;
 		this.notificationsList = [];
 
 		notifications.forEach(e => {
-			const { nameMethod, defaultSetting } = e;
+			const { nameMethod, instance } = e;
 
 			if (!nameMethod) {
 				throw new Error('You need set name method');
 			}
 
-			if (!defaultSetting) {
+			if (!instance) {
 				throw new Error('You need set default instance');
 			}
 
-			if (!(defaultSetting instanceof NotificationMessage)) {
+			if (!(instance instanceof NotificationMessage)) {
 				throw new Error('Notification is not extends from NotificationMessage');
 			}
 
@@ -30,14 +39,14 @@ export class NotificationManager {
 				message: messageDefault,
 				duration: durationDefault,
 				isClose: isCloseDefault,
-			} = defaultSetting;
+			} = instance;
 
 			this[nameMethod] = (
 				title = titleDefault,
 				message = messageDefault,
 				{ duration = durationDefault, isClose = isCloseDefault } = {},
 			) => {
-				const notification = new defaultSetting.constructor(title, message, { duration, isClose });
+				const notification = new instance.constructor(title, message, { duration, isClose });
 
 				notification.show(this.target);
 

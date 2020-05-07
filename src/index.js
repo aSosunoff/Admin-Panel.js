@@ -1,6 +1,38 @@
 import Router from './router/index.js';
 import tooltip from './components/tooltip/index.js';
 
+import {
+	NotificationSuccess,
+	NotificationError,
+	NotificationInfo,
+} from './components/notification/notification/index.js';
+import { NotificationManager } from './components/notification/notification-manager/index.js';
+
+window.NotificationManager = new NotificationManager(
+	{
+		target: document.querySelector('.notification-container'),
+	},
+	{
+		nameMethod: 'success',
+		instance: new NotificationSuccess('Успех', 'Операция выполнена', {
+			duration: 2000,
+		}),
+	},
+	{
+		nameMethod: 'error',
+		instance: new NotificationError('Ошибка', 'Возникла ошибка', {
+			duration: 2000,
+			isClose: true,
+		}),
+	},
+	{
+		nameMethod: 'info',
+		instance: new NotificationInfo('Информация', 'Внимание', {
+			duration: 2000,
+		}),
+	},
+);
+
 tooltip.initialize();
 
 const router = Router.instance();
