@@ -2,14 +2,12 @@ import { HTMLBulder } from '../../utils/HTMLBulder.js';
 import { getSubElements } from '../../utils/getSubElements.js';
 import fetchJson from '../../utils/fetch-json.js';
 
-import { Category } from '../../components/category/index.js';
-
-import { ComponentContainer } from '../../utils/ComponentContainer.js';
+import { CategoryDrag } from './components/category-drag/index.js';
 
 export default class Page {
 	element;
 	subElements = {};
-	component = {};
+	categories = [];
 
 	get template() {
 		return `
@@ -22,39 +20,12 @@ export default class Page {
 		</div>`;
 	}
 
-	constructor() {
-		this.initComponents();
-	}
-
-	initComponents() {
-		this.component = new ComponentContainer();
-
-		/* this.component
-			.add('tableServer', new TableProduct(header, {
-				url: new URL('api/dashboard/bestsellers', BACKEND_URL),
-				urlQueryPerem: {
-					from: filter.from.toISOString(),
-					to: filter.to.toISOString(),
-				},
-				pageSize: 10,
-			}))
-			.add('ordersChart', new ColumnChart({
-				label: 'Заказы',
-				link: { href: 'sales', title: 'Подробнее' },
-			}))
-			.add('salesChart', new ColumnChart({ label: 'Продажи' }))
-			.add('customersChart', new ColumnChart({ label: 'Клиенты' }))
-			.add('rangePicker', new RangePicker(filter)); */
-	}
+	constructor() {}
 
 	async render() {
 		this.element = HTMLBulder.getElementFromString(this.template);
 
 		this.subElements = getSubElements(this.element, '[data-element]');
-
-		await this.component.renderComponents((nameComponent, element) => {
-			this.subElements[nameComponent].append(element);
-		});
 
 		this.updateCategory();
 
@@ -64,20 +35,28 @@ export default class Page {
 	}
 
 	async updateCategory() {
+		this.destroyCategory();
+
 		const data = await this.loadCategories();
 
 		for await (let cat of data) {
-			const category = new Category({
+			const category = new CategoryDrag({
+				id: cat.id,
 				title: cat.title,
-				data: cat.subcategories.map(e => ({ title: e.title, text: `<b>${e.count}</b> products` })),
+				data: cat.subcategories.map(e => ({
+					title: e.title,
+					text: `<b>${e.count}</b> products`,
+					id: e.id,
+				})),
 			});
-
+			this.categories.push(category);
 			const element = await category.render();
 			this.subElements.categoriesContainer.append(element);
 		}
 	}
 
 	async loadCategories() {
+		// eslint-disable-next-line no-undef
 		const url = new URL('api/rest/categories', process.env.BACKEND_URL);
 		url.searchParams.set('_sort', 'weight');
 		url.searchParams.set('_refs', 'subcategory');
@@ -86,21 +65,35 @@ export default class Page {
 	}
 
 	initEventListeners() {
-		// this.component.components.rangePicker.element.addEventListener('date-range-selected', this.onChangeDateFilter);
+		this.element.addEventListener('category-drag-stop', this.onCategoryDragStop);
 	}
 
 	removeEventListeners() {
-		// this.component.components.rangePicker.element.removeEventListener('date-range-selected', this.onChangeDateFilter);
+		this.element.removeEventListener('category-drag-stop', this.onCategoryDragStop);
 	}
 
 	remove() {
 		this.element.remove();
 	}
 
+	destroyCategory() {
+		this.categories.forEach(e => {
+			e.destroy();
+		});
+		this.categories = [];
+	}
+
 	destroy() {
 		this.remove();
 		this.removeEventListeners();
 		this.subElements = {};
-		this.component.destroy();
+		this.destroyCategory();
+	}
+
+	onCategoryDragStop({ detail }) {
+		window.NotificationManager.success(
+			'Успех',
+			`Подкатегория "${detail.subCategoryTitle}" перенесена в категории "${detail.categoryTitle}"`,
+		);
 	}
 }

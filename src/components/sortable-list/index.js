@@ -95,6 +95,14 @@ export class SortableList {
 			this.draggingElemement.style.top = '';
 			this.draggingElemement.style.width = '';
 			this.draggingElemement.style.height = '';
+		
+			this.element.dispatchEvent(
+				new CustomEvent('drag-stop', {
+					bubbles: true,
+					detail: this.draggingElemement,
+				}),
+			);
+
 			delete this.draggingElemement;
 			delete this.placeholderElem;
 			delete this.pointerInitialShift;
