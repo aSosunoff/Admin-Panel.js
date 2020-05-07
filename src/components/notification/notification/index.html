@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<head>
+	<link rel="stylesheet" type="text/css" href="../../../styles/variables.css" />
+	<link rel="stylesheet" type="text/css" href="./style.css" />
+
+	<style>
+		.container {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			margin: 10px;
+		}
+	</style>
+</head>
+
+<button id="btnSimple">simple</button>
+
+<button id="btnSuccess">success</button>
+
+<button id="btnError">error</button>
+
+<button id="btnInfo">info</button>
+
+<div class="container"></div>
+
+<script type="module">
+	import {
+		NotificationMessage,
+		NotificationSuccess,
+		NotificationError,
+		NotificationInfo,
+	} from './index.js';
+
+	const random = ({ min = 1, max = 10, step = 1 } = {}) => {
+		return Math.floor(Math.random() * Math.floor(Math.max(min, max)) + Math.min(min, max)) * step;
+	};
+
+	const getRandomDuration = () => random({ min: 1, max: 3, step: 1000 });
+
+	/**
+	 * NotificationMessage
+	 */
+	btnSimple.addEventListener('click', () => {
+		const getRandomType = () => ['success', 'error', 'info'][random({ min: 1, max: 3 })];
+
+		const type = getRandomType();
+		const notification = new NotificationMessage('title', type, {
+			duration: getRandomDuration(),
+			type,
+		});
+		notification.show();
+	});
+
+	/**
+	 * NotificationSuccess, NotificationError, NotificationInfo
+	 */
+	btnSuccess.addEventListener('click', () => {
+		const notification = new NotificationSuccess('title', 'success', {
+			duration: getRandomDuration(),
+			isClose: true,
+		});
+		notification.show();
+	});
+
+	btnError.addEventListener('click', () => {
+		const notification = new NotificationError('title', 'error', {
+			duration: getRandomDuration(),
+		});
+		notification.show();
+	});
+
+	btnInfo.addEventListener('click', () => {
+		const notification = new NotificationInfo('title', 'info', {
+			duration: getRandomDuration(),
+		});
+		notification.show();
+	});
+</script>

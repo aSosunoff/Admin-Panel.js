@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<head>
+	<link rel="stylesheet" type="text/css" href="../../../styles/variables.css" />
+	<link rel="stylesheet" type="text/css" href="./style.css" />
+
+	<style>
+		.container {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			margin: 10px;
+		}
+	</style>
+</head>
+
+<button id="btnManagerSuccess">manager success</button>
+<button id="btnManagerSuccessMethodName">manager success name method</button>
+<button id="btnManagerError">manager error</button>
+<button id="btnManagerInfo">manager info</button>
+
+<div class="container"></div>
+
+<script type="module">
+	import { NotificationSuccess, NotificationError, NotificationInfo  } from "../notification/index.js";
+
+	import { NotificationManager } from "./index.js";
+
+	const random = ({ min = 1, max = 10, step = 1 } = {}) => {
+		return (
+			Math.floor(
+				Math.random() * Math.floor(Math.max(min, max)) + Math.min(min, max)
+			) * step
+		);
+	};
+
+	const getRandomDuration = () => random({ min: 1, max: 3, step: 1000 });
+
+	const notification = new NotificationManager(
+		{
+			target: document.querySelector(".container"),
+		},
+		{
+			nameMethod: "Success",
+			defaultSetting: new NotificationSuccess("titleDefault", "successDefault", {
+				duration: getRandomDuration(),
+			})
+		},
+		{
+			nameMethod: "CustomNameMethod",
+			defaultSetting: new NotificationSuccess("titleDefault", "successDefault", {
+				duration: 1000,
+				isClose: true,
+			})
+		},
+		{
+			nameMethod: "Error",
+			defaultSetting: new NotificationError("titleDefault", "errorDefault", {
+				duration: getRandomDuration(),
+				isClose: true,
+			})
+		},
+		{
+			nameMethod: "Info",
+			defaultSetting: new NotificationInfo("titleDefault", "infoDefault", {
+				duration: getRandomDuration(),
+			})
+		}
+	);
+
+	window.notification = notification;
+
+	btnManagerSuccessMethodName.addEventListener("click", () => {
+		notification.CustomNameMethod("CustomNameMethod", "CustomNameMethod");
+	});
+
+	btnManagerSuccess.addEventListener("click", () => {
+		notification.Success("title", "success");
+	});
+
+	btnManagerError.addEventListener("click", () => {
+		notification.Error("title", "error");
+	});
+
+	btnManagerInfo.addEventListener("click", () => {
+		notification.Info("title", "info");
+	});
+</script>
