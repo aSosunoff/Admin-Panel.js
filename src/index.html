@@ -8,6 +8,14 @@
 		href="/assets/favicon/apple-touch-icon-precomposed.png"
 	/>
 	<link rel="icon" href="/assets/favicon/favicon.png" />
+	<script>
+		document.addEventListener('DOMContentLoaded', function (event) {
+			const iconToggleSidebar = document.querySelector('.sidebar__toggler');
+			iconToggleSidebar.addEventListener('click', ({ target }) => {
+				document.body.classList.toggle("is-collapsed-sidebar");
+			});
+		});
+	</script>
 </head>
 
 <body>
