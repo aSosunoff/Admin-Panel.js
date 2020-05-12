@@ -14,7 +14,7 @@ module.exports = merge(common, {
 		publicPath: '/',
 		contentBase: path.join(__dirname, '../dist'),
 		historyApiFallback: true,
-		writeToDisk: true,
+		writeToDisk: false,
 		proxy: {
 			'/api': {
 				target: process.env.BACKEND_URL,
