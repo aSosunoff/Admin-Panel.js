@@ -1,1 +1,3 @@
-# Project Structure
+# Admin panel
+
+![](project.gif)
